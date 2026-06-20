@@ -110,7 +110,7 @@ def make_composite(
     bg = position_bg(bg)
     meme = position_meme(meme)
     face = position_face(face)
-    audio = audio.subclip(0, duration)
+    audio = audio.subclipped(0, duration)
 
     # Compose files
     result = CompositeVideoClip([bg, meme, face], size=(width, height))
