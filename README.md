@@ -20,3 +20,24 @@ Plan:
 - connect to youtube
 - at this point: run main.py: choose the clip (from folder), choose text (from folder), choose audio (folder?), spit out file. run upload.py: choose output file, uploads
 - then: figure out automation method.
+
+Update:
+- Instead of just movie clips, we need to find SOURCES
+- once we find sources, we make the script to DOWNLOAD THEM
+    - we will need to learn `os' library and other nonsense
+    - How will we store them? in a raw_memes folder
+- After we download the clips, we need to do OUR edits to them
+    - Add our face (+eyepatch)??
+    - Turn black background -> blurred overlay
+    - NEED to add edits btw
+    - Sal-style: shrink the meme, add background, add face
+- Store results: final_outputs folder
+- THEN: we need to figure out Google Oauth.... puhp
+- THEN: debug
+- THEN: debug
+- THEN: debug
+- THEN: debug
+- THEN: debug
+- THEN: debug
+- THEN: debug
+- THEN: we wait
