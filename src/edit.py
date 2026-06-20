@@ -48,7 +48,39 @@ def get_random_files():
     # Create output path
     output_path = f"./db_outputs/{count}.mp4"     
 
+    meme_path = "./db_memes/yx0lur8puvn51.mp4"
+    face_path = "./db_faces/cat.png"
+
     return bg_path, meme_path, face_path, music_path, output_path
+
+def position_bg(bg):
+    W, H = 1080, 1920
+    return bg.resized(width=W, height=H)
+
+
+
+def position_meme(meme):
+    # Side padding: 54px on each side -> width = 1080 - 2(54) = 972
+    W, H = 1080, 1920 
+
+    meme = meme.resized(width=972)
+
+    x = 0.5 * W - meme.w / 2
+    y = 0.35 * H - meme.h / 2
+
+    return meme.with_position((x, y))
+
+def position_face(face):
+    # Face takes up 60% width of screen, with bottom edge on bottom
+    W, H = 1080, 1920
+
+    face = face.resized(width=int(0.6 * W))
+
+    x = 0.5 * W - face.w / 2
+    y = H - face.h
+
+    return face.with_position((x, y))
+
 
 def make_composite(
     bg_path="./db_bgs/bg.jpg",
@@ -78,14 +110,13 @@ def make_composite(
 
     # Preparing files
     duration = meme.duration
-    bg = bg.resized(width=width, height=height).with_duration(duration).without_audio()
-    meme = meme.resized(width=width * 0.5, height=height * 0.6).with_position(("center", 0.01 * height)) 
-    face = face.resized(width=width * 0.75, height=height * 0.25).with_position(("center", height-face.h-50))
+    bg = position_bg(bg)
+    meme = position_meme(meme)
+    face = position_face(face)
     audio = audio.subclipped(0, duration)
 
     # Compose files
     result = CompositeVideoClip([bg, meme, face], size=(width, height)).with_duration(duration).with_audio(audio)
-    # result = CompositeVideoClip([bg, meme, face], size=(width, height)).with_duration(1.0).with_audio(audio)
 
     # Write result
     result.write_videofile(out_path, fps=30, codec="libx264", audio_codec="aac")
