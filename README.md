@@ -1,17 +1,17 @@
 # Commencement
 
-we need ideas for content:
+## we need ideas for content:
 
 1. Anime clips?? (apparently might be no longer monetized)
 2. Meme compilation (comptitive)
 3. Lego timelapse (building scene from movie, then with AI making timelapse of same thing)
 4. Clips from movies (Lego Movie, etc.) w/ Audio + Caption
 
-FOR NOW:
+## FOR NOW:
 
-Idea \#4: Clips from Lego Movie, add captions (manually), add audio... shoot.
+## Idea \#4: Clips from Lego Movie, add captions (manually), add audio... shoot.
 
-Plan: 
+## Plan: 
 - clip the video using Python
 - add captions using Python (constant captions)
 - figure out how to do audio
@@ -21,7 +21,7 @@ Plan:
 - at this point: run main.py: choose the clip (from folder), choose text (from folder), choose audio (folder?), spit out file. run upload.py: choose output file, uploads
 - then: figure out automation method.
 
-Update:
+## Update:
 - Instead of just movie clips, we need to find SOURCES
 - once we find sources, we make the script to DOWNLOAD THEM
     - we will need to learn `os' library and other nonsense
