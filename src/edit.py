@@ -33,7 +33,7 @@ def get_random_files():
     music_path = f"./db_music/{music}"
 
     # Get next output number
-    with open('./db_outputs/data.json', 'r', encoding='utf-8') as file:
+    with open('data.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
         count = data['count']
         count += 1
@@ -44,7 +44,7 @@ def get_random_files():
             "face": face,
             "music": music
         }
-    with open('./db_outputs/data.json', 'w', encoding='utf-8') as file:
+    with open('data.json', 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=4, ensure_ascii=False)   
 
     # Create output path
