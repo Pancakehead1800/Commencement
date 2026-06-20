@@ -7,6 +7,7 @@ import json
 WIDTH = 1080
 HEIGHT = 1920
 
+
 def check_file_type(path):
     _, ext = os.path.splitext(path)
     ext = ext.lower()
@@ -16,6 +17,7 @@ def check_file_type(path):
         return 'jpg'
     else:
         return 'other'
+
 
 def get_random_files():
     # Get random input files
@@ -46,18 +48,13 @@ def get_random_files():
         json.dump(data, file, indent=4, ensure_ascii=False)   
 
     # Create output path
-    output_path = f"./db_outputs/{count}.mp4"     
-
-    meme_path = "./db_memes/yx0lur8puvn51.mp4"
-    face_path = "./db_faces/cat.png"
-
+    output_path = f"./db_outputs/{count}.mp4"
+    
     return bg_path, meme_path, face_path, music_path, output_path
 
 def position_bg(bg):
     W, H = 1080, 1920
     return bg.resized(width=W, height=H)
-
-
 
 def position_meme(meme):
     # Side padding: 54px on each side -> width = 1080 - 2(54) = 972
@@ -113,10 +110,12 @@ def make_composite(
     bg = position_bg(bg)
     meme = position_meme(meme)
     face = position_face(face)
-    audio = audio.subclipped(0, duration)
+    audio = audio.subclip(0, duration)
 
     # Compose files
-    result = CompositeVideoClip([bg, meme, face], size=(width, height)).with_duration(duration).with_audio(audio)
+    result = CompositeVideoClip([bg, meme, face], size=(width, height))
+    result = result.with_duration(duration)
+    result = result.with_audio(audio)
 
     # Write result
     result.write_videofile(out_path, fps=30, codec="libx264", audio_codec="aac")
