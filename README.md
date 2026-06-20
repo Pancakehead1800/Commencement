@@ -41,3 +41,12 @@
 - THEN: debug
 - THEN: debug
 - THEN: we wait
+
+
+## Update on certain details:
+- Use r/dankmemes (golden)
+- Have the face + background + music approach
+- Use Synology + Docker to run containers i think?
+    1. We manually download memes to a folder (on computer)
+    2. Make scheduled task to run a container to randomly choose meme, add face, add music, and background, and format
+    3. Then make task to randomly choose a finalized video to post to Youtube shorts
