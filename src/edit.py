@@ -1,0 +1,43 @@
+from PIL import Image, ImageOps
+from moviepy import ImageClip, VideoFileClip, CompositeVideoClip
+
+WIDTH = 1080
+HEIGHT = 1920
+
+def make_composite(
+    bg_path="bg.jpg",
+    meme_path="meme.jpg",
+    face_path="face.jpg",
+    out_path="output.mp4",
+    width=1080,
+    height=1920,
+):
+    # Load files
+    bg = ImageClip(bg_path)
+    meme = VideoFileClip(meme_path)
+    face = ImageClip(face_path)
+
+    # Preparing files
+    duration = meme.duration
+    bg = bg.resized(width=width, height=height).with_duration(duration).without_audio()
+    meme = meme.resized(width=width * 0.8, height=height * 0.6).with_position(("center", "center"))
+    face = face.resized(width=width * 0.75, height=height * 0.25).with_position(("center", height-face.h-50))
+
+    # Compose files
+    result = CompositeVideoClip([bg, meme, face], size=(width, height)).with_duration(duration)
+
+    # Write result
+    result.write_videofile(out_path, fps=30, codec="libx264", audio=False)
+    return out_path
+
+if __name__ == "__main__":
+    image = make_composite(
+        bg_path="./db_bgs/589516.jpg",
+        meme_path="./db_memes/7772.mp4",
+        face_path="./db_faces/red.jpg",
+        out_path="./db_outputs/output.mp4",
+        width=1080,
+        height=1920,
+    )
+    # make_static_video(image, out_video="./db_outputs/clip.mp4", seconds=30)
+    print("Done:", image, "and clip.mp4")
