@@ -78,6 +78,10 @@ def position_face(face):
 
     return face.with_position((x, y))
 
+def adjust_duration(meme):
+    # if too short or too long, we want to slow down or speed up (up to maximum change, like 1.2 or 0.8)
+    return meme.duration
+
 
 def make_composite(
     bg_path="./db_bgs/bg.jpg",
@@ -123,6 +127,10 @@ def make_composite(
 
 if __name__ == "__main__":
     bg_path, meme_path, face_path, music_path, output_path = get_random_files()
+    bg_path     = "./db_bgs/sky1.mp4"
+    meme_path   = "./db_memes/vtusv0dhbgq41.mp4"
+    face_path   = "./db_faces/cat.png"
+    music_path  = "./db_music/arab.mp3"
     image = make_composite(
         bg_path=bg_path,
         meme_path=meme_path,
