@@ -1,5 +1,6 @@
 from PIL import Image, ImageOps
 from moviepy import ImageClip, VideoFileClip, CompositeVideoClip, AudioFileClip
+from moviepy.video.fx.Loop import Loop
 import os
 import random
 import json
@@ -92,9 +93,35 @@ def position_face(face):
 
     return face.with_position((x, y))
 
-def adjust_duration(meme):
-    # if too short or too long, we want to slow down or speed up (up to maximum change, like 1.2 or 0.8)
-    return meme.duration
+def adjust_meme_duration(meme, duration):
+    L_DURATION_BOUND = 5
+    U_DURATION_BOUND = 50
+
+    MAX_SPEEDUP = 1.2
+    MAX_SLOWDOWN = 0.8
+
+    if duration < L_DURATION_BOUND:
+        speedup = min(MAX_SPEEDUP, L_DURATION_BOUND / duration)
+        meme = meme.speedx(speedup)
+    elif duration > U_DURATION_BOUND:
+        slowdown = max(MAX_SLOWDOWN, U_DURATION_BOUND / duration)
+        meme = meme.speedx(slowdown)
+
+    return meme
+
+
+def adjust_bg_duration(bg, duration):
+    MAX_SPEEDUP = 10
+
+    bg_duration = bg.duration
+
+    if bg_duration < duration:
+        speedup = min(MAX_SPEEDUP, duration / bg_duration)
+        bg = bg.speedx(speedup)
+    elif bg_duration > duration:
+        bg = bg.with_effects([Loop(duration=duration)])
+
+    return bg
 
 
 def make_composite(
@@ -126,7 +153,9 @@ def make_composite(
     # Preparing files
     duration = meme.duration
     bg = position_bg(bg)
+    bg = adjust_bg_duration(bg, duration)
     meme = position_meme(meme)
+    meme = adjust_meme_duration(meme)
     face = position_face(face)
     audio = audio.subclipped(0, duration)
 
