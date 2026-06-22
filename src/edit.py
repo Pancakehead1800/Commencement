@@ -56,14 +56,28 @@ def position_bg(bg):
     W, H = 1080, 1920
     return bg.resized(width=W, height=H)
 
-def position_meme(meme):
-    # Side padding: 54px on each side -> width = 1080 - 2(54) = 972
-    W, H = 1080, 1920 
+def position_meme(meme, jitter_px=54):
+    W, H = 1080, 1920
 
+    # Resize first so we know the final dimensions
     meme = meme.resized(width=972)
+    w, h = meme.w, meme.h
 
-    x = 0.5 * W - meme.w / 2
-    y = 0.35 * H - meme.h / 2
+    # Desired center point
+    cx = 0.5 * W
+    cy = 0.35 * H
+
+    # Convert center to top-left
+    x = cx - w / 2
+    y = cy - h / 2
+
+    # Small random offset around that position  
+    x += random.uniform(-jitter_px, jitter_px)
+    y += random.uniform(-jitter_px, jitter_px)
+
+    # Keep fully inside the window
+    x = max(0, min(x, W - w))
+    y = max(0, min(y, H - h))
 
     return meme.with_position((x, y))
 
@@ -127,10 +141,6 @@ def make_composite(
 
 if __name__ == "__main__":
     bg_path, meme_path, face_path, music_path, output_path = get_random_files()
-    bg_path     = "./db_bgs/sky1.mp4"
-    meme_path   = "./db_memes/vtusv0dhbgq41.mp4"
-    face_path   = "./db_faces/cat.png"
-    music_path  = "./db_music/arab.mp3"
     image = make_composite(
         bg_path=bg_path,
         meme_path=meme_path,
