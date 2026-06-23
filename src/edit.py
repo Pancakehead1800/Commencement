@@ -1,4 +1,3 @@
-from PIL import Image, ImageOps
 from moviepy import ImageClip, VideoFileClip, CompositeVideoClip, AudioFileClip
 from moviepy.video.fx.Loop import Loop
 from src.constants import *
@@ -7,6 +6,7 @@ import random
 import json
 
 
+# Return file type
 def check_file_type(path):
     _, ext = os.path.splitext(path)
     ext = ext.lower()
@@ -18,21 +18,21 @@ def check_file_type(path):
         return 'other'
 
 
-
+# Randomly choose files
 def get_random_files():
-    # Get random input files
+    """Get random input files"""
     bg    = random.choice(os.listdir(BGS_PATH))
     meme  = random.choice(os.listdir(READY_MEMES_PATH))
     face  = random.choice(os.listdir(FACES_PATH))
     music = random.choice(os.listdir(MUSIC_PATH))
 
-    # Create input paths
+    """Create input paths"""
     bg_path    = os.path.join(BGS_PATH, bg)
     meme_path  = os.path.join(READY_MEMES_PATH, meme)
     face_path  = os.path.join(FACES_PATH, face)
     music_path = os.path.join(MUSIC_PATH, music)
 
-    # Get next output number
+    """Get next output number"""
     with open('data.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
         data["count"] = data.get("count", 0) + 1
@@ -45,88 +45,86 @@ def get_random_files():
         }
 
     with open('data.json', 'w', encoding='utf-8') as file:
-        json.dump(data, file, indent=4, ensure_ascii=False)   
+        json.dump(data, file, indent=4, ensure_ascii=False) 
 
-    # Create output path
     output_path = os.path.join(OUTPUTS_PATH, f"{count}.mp4")
     
+    """Return"""
     return bg_path, meme_path, face_path, music_path, output_path
 
 
-
+# Ensure background has proper dimensions
 def position_bg(bg):
     return bg.resized(width=VIDEO_WIDTH, height=VIDEO_HEIGHT)
 
 
-
-def position_meme(meme, jitter_px=54):
-
-    # Resize first so we know the final dimensions
-    meme = meme.resized(width=972)
+# Position the meme with slight randomness
+def position_meme(meme):
+    """Resize first so we know the final dimensions"""
+    meme = meme.resized(width=VIDEO_WIDTH - 2 * JITTER_X)
     w, h = meme.w, meme.h
 
-    # Desired center point
+    """Center position"""
     cx = 0.5 * VIDEO_WIDTH
     cy = 0.35 * VIDEO_HEIGHT
 
-    # Convert center to top-left
     x = cx - w / 2
     y = cy - h / 2
 
-    # Small random offset around that position  
-    x += random.uniform(-jitter_px, jitter_px)
-    y += random.uniform(-jitter_px, jitter_px)
+    """Slight randomness"""
+    x += random.uniform(-JITTER_X, JITTER_X)
+    y += random.uniform(-JITTER_Y, JITTER_Y)
 
-    # Keep fully inside the window
     x = max(0, min(x, VIDEO_WIDTH - w))
     y = max(0, min(y, VIDEO_HEIGHT - h))
 
+    """Return"""
     return meme.with_position((x, y))
 
 
-
+# Face should take 60% width and be flush to the bottom
 def position_face(face):
-    # Face takes up 60% width of screen, with bottom edge on bottom
-    W, H = 1080, 1920
+    """Resizing"""
+    face = face.resized(width=int(0.6 * VIDEO_WIDTH))
 
-    face = face.resized(width=int(0.6 * W))
+    """Positioning"""
+    x = 0.5 * VIDEO_WIDTH - face.w / 2
+    y = VIDEO_HEIGHT - face.h
 
-    x = 0.5 * W - face.w / 2
-    y = H - face.h
-
+    """Return"""
     return face.with_position((x, y))
 
 
 
 def adjust_meme_duration(meme, duration):
-    L_DURATION_BOUND = 5
-    U_DURATION_BOUND = 50
-
-    MAX_SPEEDUP = 1.2
-    MAX_SLOWDOWN = 0.8
-
-    if duration < L_DURATION_BOUND:
-        speedup = min(MAX_SPEEDUP, L_DURATION_BOUND / duration)
+    """Too short"""
+    if duration < LOWER_DURATION_BOUND:
+        speedup = min(MAX_MEME_SPEEDUP, LOWER_DURATION_BOUND / duration)
         meme = meme.speedx(speedup)
-    elif duration > U_DURATION_BOUND:
-        slowdown = max(MAX_SLOWDOWN, U_DURATION_BOUND / duration)
+
+    """Too long"""
+    if duration > UPPER_DURATION_BOUND:
+        slowdown = max(MAX_MEME_SLOWDOWN, UPPER_DURATION_BOUND / duration)
         meme = meme.speedx(slowdown)
 
+    """Return"""
     return meme
 
 
 
 def adjust_bg_duration(bg, duration):
-    MAX_SPEEDUP = 10
-
     bg_duration = bg.duration
 
+    """Too short"""
     if bg_duration < duration:
-        speedup = min(MAX_SPEEDUP, duration / bg_duration)
+        speedup = min(MAX_BG_SPEEDUP, duration / bg_duration)
         bg = bg.speedx(speedup)
-    elif bg_duration > duration:
+
+    """Too long"""
+    if bg_duration > duration:
         bg = bg.with_effects([Loop(duration=duration)])
 
+    """Return"""
     return bg
 
 
@@ -138,6 +136,7 @@ def make_composite(
     music_path=None,
     output_path=None
 ) -> CompositeVideoClip:
+    
     """Ensure file paths are given"""
     good = True
     if bg_path == None:
