@@ -1,4 +1,4 @@
-from src.constants import *
+from constants import *
 import random
 from moviepy.video.fx.Loop import Loop
 

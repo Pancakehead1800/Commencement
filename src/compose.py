@@ -1,6 +1,6 @@
 from moviepy import ImageClip, VideoFileClip, CompositeVideoClip, AudioFileClip
-from src.constants import *
-from src.edits import *
+from constants import *
+from edits import *
 import os
 import random
 import json
@@ -23,13 +23,13 @@ def get_random_files():
     """Get random input files"""
     bg    = random.choice(os.listdir(BGS_PATH))
     meme  = random.choice(os.listdir(READY_MEMES_PATH))
-    face  = random.choice(os.listdir(FACES_PATH))
+    face  = random.choice(os.listdir(READY_FACES_PATH))
     music = random.choice(os.listdir(MUSIC_PATH))
 
     """Create input paths"""
     bg_path    = os.path.join(BGS_PATH, bg)
     meme_path  = os.path.join(READY_MEMES_PATH, meme)
-    face_path  = os.path.join(FACES_PATH, face)
+    face_path  = os.path.join(READY_FACES_PATH, face)
     music_path = os.path.join(MUSIC_PATH, music)
 
     """Get next output number"""

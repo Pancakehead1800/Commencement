@@ -4,10 +4,11 @@ VIDEO_WIDTH  = 1080
 VIDEO_HEIGHT = 1920
 
 # Database Folder Paths
+BGS_PATH         = "db_bgs"
 RAW_MEMES_PATH   = "db_memes_raw"
 READY_MEMES_PATH = "db_memes_ready"
-BGS_PATH         = "db_bgs"
-FACES_PATH       = "db_faces"
+RAW_FACES_PATH   = "db_faces_raw"
+READY_FACES_PATH = "db_faces_ready"
 MUSIC_PATH       = "db_music"
 OUTPUTS_PATH     = "db_outputs"
 
