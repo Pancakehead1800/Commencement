@@ -16,6 +16,25 @@ def check_file_type(path):
         return 'jpg'
     else:
         return 'other'
+    
+
+# Ensure json data file is setup
+def clean_data_file():
+    with open("data.json", "r", encoding="utf-8") as file: 
+        data = json.load(file)
+
+        # Upload counter
+        if "count" not in data:
+            data["count"] = 0
+        
+        # Complete compositions
+        if "compositions" not in data:
+            data["compositions"] = {}
+
+        # Files usage statistics
+        if "statistics" not in data:
+            data["statistics"] = {}
+
 
 
 # Randomly choose files
@@ -33,24 +52,41 @@ def get_random_files():
     music_path = os.path.join(MUSIC_PATH, music)
 
     """Get next output number"""
-    with open('data.json', 'r', encoding='utf-8') as file:
+    with open("data.json", "r", encoding="utf-8") as file:
         data = json.load(file)
-        data["count"] = data.get("count", 0) + 1
-        count = data["count"]
-        data[count] = {
-            "bg": bg,
-            "meme": meme,
-            "face": face,
-            "music": music
-        }
-
-    with open('data.json', 'w', encoding='utf-8') as file:
-        json.dump(data, file, indent=4, ensure_ascii=False) 
-
+        count = data.get("count", 0) + 1
+        
     output_path = os.path.join(OUTPUTS_PATH, f"{count}.mp4")
     
     """Return"""
     return bg_path, meme_path, face_path, music_path, output_path
+
+
+# Update data file with new upload
+# NOTE: "count" represents the new upload number
+def update_data_file(bg_path, meme_path, face_path, music_path, count):
+    with open("data.json", "w", encoding="utf-8") as file:
+        data = json.load(file)
+
+        # Update count
+        data["count"] = count
+
+        # Add new composition data
+        data["compositions"][count] = {
+            "bg":    bg_path,
+            "meme":  meme_path,
+            "face":  face_path,
+            "music": music_path
+        }
+
+        # Update file statistics
+        data["statistics"][bg_path]    = data["statistics"].get(bg_path, 0)    + 1
+        data["statistics"][meme_path]  = data["statistics"].get(meme_path, 0)  + 1
+        data["statistics"][face_path]  = data["statistics"].get(face_path, 0)  + 1
+        data["statistics"][music_path] = data["statistics"].get(music_path, 0) + 1
+
+        # Write new data
+        json.dump(data, file, indent=4, ensure_ascii=False) 
 
 
 
