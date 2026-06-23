@@ -1,7 +1,11 @@
 from PIL import Image
+from rembg import remove
+from pillow_heif import register_heif_opener
+from src.constants import *
 import os
 
 # .webp -> .jpg
+# Used for: Memes
 def convert_webp_to_jpg(input_path, output_path):
     try:
         with Image.open(input_path) as image:
@@ -11,6 +15,7 @@ def convert_webp_to_jpg(input_path, output_path):
 
 
 # .webp -> jpg FOR ALL .webp IN db_memes_raw
+# Used for: Memes
 def convert_all_webp_to_jpg(input_folder, output_folder):
     files = os.listdir(input_folder)
 
@@ -23,4 +28,18 @@ def convert_all_webp_to_jpg(input_folder, output_folder):
         convert_webp_to_jpg(input_path, output_path)
 
 
-convert_all_webp_to_jpg("db_memes_raw", "db_memes_ready")
+# Remove bg
+# Used for: Faces
+def convert_jpg_to_clear_png(input_path, output_path):
+
+    register_heif_opener()
+
+    try:
+        with Image.open(input_path) as image:
+            output_image = remove(image)
+            output_image.save(output_path)
+    except Exception as e:
+        print(f"Error converting {input_path} from jpg to png without background: {e}")
+
+
+convert_all_webp_to_jpg(RAW_MEMES_PATH, READY_MEMES_PATH)
