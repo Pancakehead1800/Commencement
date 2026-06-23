@@ -18,6 +18,8 @@ def convert_all_webp_to_jpg(input_folder, output_folder):
         root, ext = os.path.splitext(file)
         input_path = os.path.join(input_folder, file)
         output_path = os.path.join(output_folder, f"{root}.jpg")
+        if os.path.isfile(output_path):
+            continue
         convert_webp_to_jpg(input_path, output_path)
 
 
