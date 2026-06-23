@@ -50,3 +50,19 @@
     1. We manually download memes to a folder (on computer)
     2. Make scheduled task to run a container to randomly choose meme, add face, add music, and background, and format
     3. Then make task to randomly choose a finalized video to post to Youtube shorts
+
+# Sources
+
+## Memes:
+1. https://pixabay.com/music/search/classical/
+
+## Music:
+1. https://pixabay.com/music/search/classical/
+2. Arabeqsue recording
+
+## Backgrounds:
+1. https://www.videezy.com/free-video/sunset
+
+## Faces:
+1. No clue where i got the cat one
+2. Immich => ma DAWGS
