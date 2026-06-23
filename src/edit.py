@@ -23,13 +23,13 @@ def check_file_type(path):
 def get_random_files():
     # Get random input files
     bg = random.choice(os.listdir("./db_bgs"))
-    meme = random.choice(os.listdir("./db_memes"))
+    meme = random.choice(os.listdir("./db_memes_ready"))
     face = random.choice(os.listdir("./db_faces"))
     music = random.choice(os.listdir("./db_music"))
 
     # Create input paths
     bg_path = f"./db_bgs/{bg}"
-    meme_path = f"./db_memes/{meme}"
+    meme_path = f"./db_memes_ready/{meme}"
     face_path = f"./db_faces/{face}"
     music_path = f"./db_music/{music}"
 
@@ -126,36 +126,52 @@ def adjust_bg_duration(bg, duration):
 
 def make_composite(
     bg_path="./db_bgs/bg.jpg",
-    meme_path="./db_memes/meme.jpg",
+    meme_path="./db_memes_ready/meme.jpg",
     face_path="./db_faces/face.jpg",
     music_path="./db_music/music.mp3",
     out_path="./db_outputs/output.mp4",
     width=1080,
     height=1920,
 ):
-    # Load files
+    """Load files"""
+    # Background file type
     bg_type = check_file_type(bg_path)
     if bg_type == 'mp4':
         bg = VideoFileClip(bg_path)
     else:
         bg = ImageClip(bg_path)
         
+    # Face file type
     face_type = check_file_type(face_path)
     if face_type == 'mp4':
         face = VideoFileClip(face_path)
     else:
         face = ImageClip(face_path)
 
-    meme = VideoFileClip(meme_path)
+    # Meme file type
+    meme_type = check_file_type(meme_path)
+    if meme_type == "mp4":
+        meme = VideoFileClip(meme_path)
+    elif meme_type == "jpg":
+        meme = ImageClip(meme_path)
+    else:
+        print(f"Bad meme file type: {meme_type}")
+
     face = ImageClip(face_path)
     audio = AudioFileClip(music_path)
 
     # Preparing files
-    duration = meme.duration
+    duration = 0
+    if meme_type == "mp4":
+        duration = meme.duration
+    elif meme_type == "jpg":
+        duration = 10
+
     bg = position_bg(bg)
     bg = adjust_bg_duration(bg, duration)
     meme = position_meme(meme)
-    meme = adjust_meme_duration(meme)
+    if meme_type == "mp4":
+        meme = adjust_meme_duration(meme)
     face = position_face(face)
     audio = audio.subclipped(0, duration)
 
@@ -170,6 +186,11 @@ def make_composite(
 
 if __name__ == "__main__":
     bg_path, meme_path, face_path, music_path, output_path = get_random_files()
+    print()
+    print(f"Background: {bg_path}")
+    print(f"Meme: {meme_path}")
+    print(f"Face: {face_path}")
+    print(f"Music: {music_path}")
     image = make_composite(
         bg_path=bg_path,
         meme_path=meme_path,
