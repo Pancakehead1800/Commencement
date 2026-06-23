@@ -10,7 +10,6 @@ BGS_PATH         = "db_bgs"
 FACES_PATH       = "db_faces"
 MUSIC_PATH       = "db_music"
 OUTPUTS_PATH     = "db_outputs"
-MISC_PATH        = "db_misc"
 
 
 # Video Specifications
