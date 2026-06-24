@@ -3,7 +3,6 @@ from constants import *
 from edits import *
 import os
 import random
-import json
 
 
 # Return file type
@@ -42,20 +41,21 @@ def get_random_files(d):
 
 
 # Update data file with new upload
-def update_data_file(d, files, duration, id):
+def update_data_files(d, files, duration, id):
     bg_path, meme_path, face_path, music_path, output_path, id = files
     d.add_composition(bg_path, meme_path, face_path, music_path, output_path, duration, id)
     d.use_file("bg", bg_path, id)
     d.use_file("meme", meme_path, id)
     d.use_file("face", face_path, id)
     d.use_file("music", music_path, id)
-    d.save_data()
+    d.save()
     
 
 # Compose a video
 def make_composite(files) -> CompositeVideoClip:
     """Unwrap"""
     bg_path, meme_path, face_path, music_path, output_path, id = files
+    print(files)
 
     """Load files"""
     # Background file type
@@ -77,7 +77,7 @@ def make_composite(files) -> CompositeVideoClip:
     if meme_type == "mp4":
         meme = VideoFileClip(meme_path)
     elif meme_type == "jpg":
-        meme = ImageClip(meme_path)
+        meme = ImageClip(meme_path).with_duration(DEFAULT_MEME_DURATION)
     else:
         print(f"Bad meme file type: {meme_type}")
 
@@ -87,8 +87,8 @@ def make_composite(files) -> CompositeVideoClip:
     """Editing files"""
     duration = 0
     if meme_type == "mp4":
-        duration = meme.duration
         meme = adjust_meme_duration(meme)
+        duration = meme.duration
     elif meme_type == "jpg":
         duration = DEFAULT_MEME_DURATION
 
@@ -112,10 +112,12 @@ def make_composite(files) -> CompositeVideoClip:
 def step_compose(d):
     files = get_random_files(d)
     output_path, duration, id = make_composite(files)
-    update_data_file(files, duration, id)
+    update_data_files(d, files, duration, id)
     return output_path
 
 
-
+# Testing
 if __name__ == "__main__":
-    step_compose()
+    from data import Data
+    d = Data.load()
+    step_compose(d)

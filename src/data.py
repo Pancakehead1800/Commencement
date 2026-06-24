@@ -92,6 +92,7 @@ def read_data() ->
     pickle.get_the_data
 """
 
+import os
 import pickle
 from constants import *
 
@@ -110,11 +111,19 @@ class Data:
     def use_file(self, purpose, file, id) -> None:
         purpose = f"{purpose}_stats"
 
-        if file not in self.purpose:
-            self.purpose[file] = {"count": 0, "last_used": 0}
-        
-        self.purpose[file]["count"] += 1
-        self.purpose[file]["last_used"] = id
+        if purpose == "bg":
+            self.bg_stats[file]["count"] += 1
+            self.bg_stats[file]["last_used"] = id
+        elif purpose == "meme":
+            self.meme_stats[file]["count"] += 1
+            self.meme_stats[file]["last_used"] = id
+        elif purpose == "face":
+            self.face_stats[file]["count"] += 1
+            self.face_stats[file]["last_used"] = id
+        elif purpose == "music":
+            self.music_stats[file]["count"] += 1
+            self.music_stats[file]["last_used"] = id
+
         return None
     
     def add_composition(self, bg, meme, face, music, path, duration, id) -> None:
@@ -129,11 +138,19 @@ class Data:
         }
         return None
     
-    def save_data(self):
+    def initialize(self):
+        pass
+    
+    def save(self):
         with open(DATA_STORAGE_PATH, "wb") as file:
             pickle.dump(self, file)
 
     @classmethod
-    def load_data(cls):
+    def load(cls):
         with open(DATA_STORAGE_PATH, "rb") as file:
             return pickle.load(file)
+
+
+if __name__ == "__main__":
+    d = Data()
+    d.save()

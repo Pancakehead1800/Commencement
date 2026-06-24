@@ -1,6 +1,8 @@
 from constants import *
 import random
+from moviepy import ImageClip, VideoFileClip, CompositeVideoClip, AudioFileClip
 from moviepy.video.fx.Loop import Loop
+from moviepy.video.fx import MultiplySpeed
 
 
 # Ensure background has proper dimensions
@@ -9,7 +11,7 @@ def position_bg(bg):
 
 
 # Position the meme with slight randomness
-def position_meme(meme):
+def position_meme(meme: ImageClip | VideoFileClip) -> ImageClip | VideoFileClip:
     """Resize first so we know the final dimensions"""
     meme = meme.resized(width=VIDEO_WIDTH - 2 * JITTER_X)
     w, h = meme.w, meme.h
@@ -33,9 +35,9 @@ def position_meme(meme):
 
 
 # Face should take 60% width and be flush to the bottom
-def position_face(face):
+def position_face(face: ImageClip) -> ImageClip:
     """Resizing"""
-    face = face.resized(width=int(0.6 * VIDEO_WIDTH))
+    face = face.resized(width=int(FACE_WIDTH * VIDEO_WIDTH))
 
     """Positioning"""
     x = 0.5 * VIDEO_WIDTH - face.w / 2
@@ -45,23 +47,24 @@ def position_face(face):
     return face.with_position((x, y))
 
 
-def adjust_meme_duration(meme, duration):
+def adjust_meme_duration(meme: VideoFileClip) -> VideoFileClip:
+    duration = meme.duration
     """Too short"""
     if duration < LOWER_DURATION_BOUND:
         speedup = min(MAX_MEME_SPEEDUP, LOWER_DURATION_BOUND / duration)
-        meme = meme.speedx(speedup)
+        meme = meme.with_effects([MultiplySpeed(speedup)])
 
     """Too long"""
     if duration > UPPER_DURATION_BOUND:
         slowdown = max(MAX_MEME_SLOWDOWN, UPPER_DURATION_BOUND / duration)
-        meme = meme.speedx(slowdown)
+        meme = meme.with_effects([MultiplySpeed(slowdown)])
 
     """Return"""
     return meme
 
 
 
-def adjust_bg_duration(bg, duration):
+def adjust_bg_duration(bg: VideoFileClip, duration: float) -> VideoFileClip:
     bg_duration = bg.duration
 
     """Too short"""

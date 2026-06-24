@@ -23,6 +23,10 @@ DEFAULT_MEME_DURATION = 10
 FPS = 30
 
 
+# Background editing
+MAX_BG_SPEEDUP = 20
+
+
 # Meme Editing
 JITTER_X = 54
 JITTER_Y = 108
@@ -31,5 +35,6 @@ UPPER_DURATION_BOUND = 50
 MAX_MEME_SPEEDUP     = 1.2
 MAX_MEME_SLOWDOWN    = 0.8
 
-# Background editing
-MAX_BG_SPEEDUP = 20
+
+# Face Editing
+FACE_WIDTH = 0.7
