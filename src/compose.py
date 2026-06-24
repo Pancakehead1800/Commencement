@@ -76,7 +76,8 @@ def make_composite(files) -> CompositeVideoClip:
     audio = audio.subclipped(0, duration)
 
     """Composing files"""
-    result = CompositeVideoClip([bg, meme, face], size=(VIDEO_WIDTH, VIDEO_HEIGHT))
+    # The one and only time when "face" comes before "meme"
+    result = CompositeVideoClip([bg, face, meme], size=(VIDEO_WIDTH, VIDEO_HEIGHT))
     result = result.with_duration(duration)
     result = result.with_audio(audio)
 
