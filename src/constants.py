@@ -13,6 +13,11 @@ MUSIC_PATH       = "db_music"
 OUTPUTS_PATH     = "db_outputs"
 
 
+# Data Storage
+DATA_STORAGE_PATH = "data.pkl"
+DATA_CLASS_PATH   = "src/data.py"
+
+
 # Video Specifications
 DEFAULT_MEME_DURATION = 10
 FPS = 30
