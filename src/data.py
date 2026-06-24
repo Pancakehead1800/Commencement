@@ -23,46 +23,49 @@ Example of the Data structure:
             "duration": 12
         }
     },
-    "bg_stats":
+    "stats": 
     {
-        "db_bgs/bg1.png": 
+        "bg_stats":
         {
-            "count": 1,
-            "last_used": 1
+            "db_bgs/bg1.png": 
+            {
+                "count": 1,
+                "last_used": 1
+            },
+            "db_bgs/bg2.png":
+            {
+                "count": 1,
+                "last_used": 2
+            }
         },
-        "db_bgs/bg2.png":
+        "meme_stats":
         {
-            "count": 1,
-            "last_used": 2
-        }
-    },
-    "meme_stats":
-    {
-        "db_memes_ready/meme1.png": 
-        {
-            "count": 1,
-            "last_used": 1
+            "db_memes_ready/meme1.png": 
+            {
+                "count": 1,
+                "last_used": 1
+            },
+            "db_memes_ready/meme2.png": 
+            {
+                "count": 1,
+                "last_used": 2
+            }
         },
-        "db_memes_ready/meme2.png": 
+        "face_stats":
         {
-            "count": 1,
-            "last_used": 2
-        }
-    },
-    "face_stats":
-    {
-        "db_faces_ready/face1.png":
+            "db_faces_ready/face1.png":
+            {
+                "count": 2,
+                "last_used": 2
+            }
+        },
+        "music_stats":
         {
-            "count": 2,
-            "last_used": 2
-        }
-    },
-    "music_stats":
-    {
-        "db_music/music1.mp3": 
-        {
-            "count": 2,
-            "last_used": 2
+            "db_music/music1.mp3": 
+            {
+                "count": 2,
+                "last_used": 2
+            }
         }
     }
 }
@@ -100,10 +103,12 @@ class Data:
     def __init__(self):
         self.count        = 0
         self.compositions = {}
-        self.bg_stats     = {}
-        self.meme_stats   = {}
-        self.face_stats   = {}
-        self.music_stats  = {}
+        self.stats = {}
+
+        self.stats["bg_stats"]    = {}
+        self.stats["meme_stats"]  = {}
+        self.stats["face_stats"]  = {}
+        self.stats["music_stats"] = {}
 
     def get_count(self) -> int:
         return self.count
@@ -111,18 +116,8 @@ class Data:
     def use_file(self, purpose, file, id) -> None:
         purpose = f"{purpose}_stats"
 
-        if purpose == "bg":
-            self.bg_stats[file]["count"] += 1
-            self.bg_stats[file]["last_used"] = id
-        elif purpose == "meme":
-            self.meme_stats[file]["count"] += 1
-            self.meme_stats[file]["last_used"] = id
-        elif purpose == "face":
-            self.face_stats[file]["count"] += 1
-            self.face_stats[file]["last_used"] = id
-        elif purpose == "music":
-            self.music_stats[file]["count"] += 1
-            self.music_stats[file]["last_used"] = id
+        self.stats[purpose][file]["count"] += 1
+        self.stats[purpose][file]["last_used"] = id
 
         return None
     
