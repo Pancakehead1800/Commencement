@@ -42,24 +42,38 @@ def get_next_id(d):
     return d.get_count() + 1
         
 
-def get_all_random_files(d, id):
-    bg    = get_random_file(d, "bg", id)
-    meme  = get_random_file(d, "meme", id)
-    face  = get_random_file(d, "face", id)
-    music = get_random_file(d, "music", id)
+def get_all_random_files(
+        d, id,
+        bg_path=None,
+        meme_path=None,
+        face_path=None,
+        music_path=None,
+        output_path=None
+    ):
+    if bg_path == None:
+        bg = get_random_file(d, "bg", id)
+        bg_path    = os.path.join(BGS_PATH, bg)
 
-    bg_path    = os.path.join(BGS_PATH, bg)
-    meme_path  = os.path.join(READY_MEMES_PATH, meme)
-    face_path  = os.path.join(READY_FACES_PATH, face)
-    music_path = os.path.join(MUSIC_PATH, music)
+    if meme_path == None:
+        meme  = get_random_file(d, "meme", id)
+        meme_path  = os.path.join(READY_MEMES_PATH, meme)
 
-    output_path = os.path.join(OUTPUTS_PATH, f"{id}.mp4")
-    
+    if face_path == None:
+        face  = get_random_file(d, "face", id)
+        face_path  = os.path.join(READY_FACES_PATH, face)
+
+    if music_path == None:
+        music = get_random_file(d, "music", id)
+        music_path = os.path.join(MUSIC_PATH, music)
+
+    if output_path == None:
+        output_path = os.path.join(OUTPUTS_PATH, f"{id}.mp4")
+
     files = (bg_path, meme_path, face_path, music_path, output_path, id)
     return files
         
 
-def step_choose(d):
+def step_choose(d, bg_path=None, meme_path=None, face_path=None, music_path=None):
     id = get_next_id(d)
-    files = get_all_random_files(d, id)
+    files = get_all_random_files(d, id, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
     return files

@@ -116,8 +116,11 @@ class Data:
     def use_file(self, purpose, file, id) -> None:
         purpose = f"{purpose}_stats"
 
-        self.stats[purpose][file]["count"] += 1
-        self.stats[purpose][file]["last_used"] = id
+        if file in self.stats[purpose]:
+            self.stats[purpose][file]["count"] += 1
+            self.stats[purpose][file]["last_used"] = id
+        else:
+            self.stats[purpose][file] = {"count": 1, "last_used": id}
 
         return None
     
