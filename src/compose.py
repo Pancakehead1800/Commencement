@@ -120,4 +120,12 @@ def step_compose(d):
 if __name__ == "__main__":
     from data import Data
     d = Data.load()
-    step_compose(d)
+    # step_compose(d)
+    bg_path = "db_bgs/stockfootage0525.mp4"
+    meme_path = "db_memes_ready/yx0lur8puvn51.mp4"
+    face_path = "db_faces_ready/IMG_E8459_preview.png"
+    music_path = "db_music/classic.mp3"
+    output_path = "db_outputs/test.mp4"
+    id = 69
+    files = (bg_path, meme_path, face_path, music_path, output_path, id)
+    make_composite(files)

@@ -51,13 +51,13 @@ def adjust_meme_duration(meme: VideoFileClip) -> VideoFileClip:
     duration = meme.duration
     """Too short"""
     if duration < LOWER_DURATION_BOUND:
-        speedup = min(MAX_MEME_SPEEDUP, LOWER_DURATION_BOUND / duration)
-        meme = meme.with_effects([MultiplySpeed(speedup)])
+        slowdown = max(MAX_MEME_SLOWDOWN, duration / LOWER_DURATION_BOUND)
+        meme = meme.with_effects([MultiplySpeed(slowdown)])
 
     """Too long"""
     if duration > UPPER_DURATION_BOUND:
-        slowdown = max(MAX_MEME_SLOWDOWN, UPPER_DURATION_BOUND / duration)
-        meme = meme.with_effects([MultiplySpeed(slowdown)])
+        speedup = min(MAX_MEME_SPEEDUP, UPPER_DURATION_BOUND / duration)
+        meme = meme.with_effects([MultiplySpeed(speedup)])
 
     """Return"""
     return meme
