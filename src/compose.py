@@ -16,29 +16,10 @@ def check_file_type(path):
         return 'jpg'
     else:
         return 'other'
-    
-
-# Ensure json data file is setup
-def clean_data_file():
-    with open("data.json", "r", encoding="utf-8") as file: 
-        data = json.load(file)
-
-        # Upload counter
-        if "count" not in data:
-            data["count"] = 0
-        
-        # Complete compositions
-        if "compositions" not in data:
-            data["compositions"] = {}
-
-        # Files usage statistics
-        if "statistics" not in data:
-            data["statistics"] = {}
-
 
 
 # Randomly choose files
-def get_random_files():
+def get_random_files(d):
     """Get random input files"""
     bg    = random.choice(os.listdir(BGS_PATH))
     meme  = random.choice(os.listdir(READY_MEMES_PATH))
@@ -52,72 +33,29 @@ def get_random_files():
     music_path = os.path.join(MUSIC_PATH, music)
 
     """Get next output number"""
-    with open("data.json", "r", encoding="utf-8") as file:
-        data = json.load(file)
-        count = data.get("count", 0) + 1
-        
-    output_path = os.path.join(OUTPUTS_PATH, f"{count}.mp4")
+    count = d.get_count()
+    id = count + 1
+    output_path = os.path.join(OUTPUTS_PATH, f"{id}.mp4")
     
     """Return"""
-    return bg_path, meme_path, face_path, music_path, output_path
+    return (bg_path, meme_path, face_path, music_path, output_path, id)
 
 
 # Update data file with new upload
-# NOTE: "count" represents the new upload number
-def update_data_file(bg_path, meme_path, face_path, music_path, count):
-    with open("data.json", "w", encoding="utf-8") as file:
-        data = json.load(file)
-
-        # Update count
-        data["count"] = count
-
-        # Add new composition data
-        data["compositions"][count] = {
-            "bg":    bg_path,
-            "meme":  meme_path,
-            "face":  face_path,
-            "music": music_path
-        }
-
-        # Update file statistics
-        data["statistics"][bg_path]    = data["statistics"].get(bg_path, 0)    + 1
-        data["statistics"][meme_path]  = data["statistics"].get(meme_path, 0)  + 1
-        data["statistics"][face_path]  = data["statistics"].get(face_path, 0)  + 1
-        data["statistics"][music_path] = data["statistics"].get(music_path, 0) + 1
-
-        # Write new data
-        json.dump(data, file, indent=4, ensure_ascii=False) 
-
-
-
-def make_composite(
-    bg_path=None,
-    meme_path=None,
-    face_path=None,
-    music_path=None,
-    output_path=None
-) -> CompositeVideoClip:
+def update_data_file(d, files, duration, id):
+    bg_path, meme_path, face_path, music_path, output_path, id = files
+    d.add_composition(bg_path, meme_path, face_path, music_path, output_path, duration, id)
+    d.use_file("bg", bg_path, id)
+    d.use_file("meme", meme_path, id)
+    d.use_file("face", face_path, id)
+    d.use_file("music", music_path, id)
+    d.save_data()
     
-    """Ensure file paths are given"""
-    good = True
-    if bg_path == None:
-        print("Background not given")
-        good = False
-    if meme_path == None:
-        print("Meme not given")
-        good = False
-    if face_path == None:
-        print("Face not given")
-        good = False
-    if music_path == None:
-        print("Music not given")
-        good = False
-    if output_path == None:
-        print("Output not given")
-        good = False
 
-    if good == False:
-        return None
+# Compose a video
+def make_composite(files) -> CompositeVideoClip:
+    """Unwrap"""
+    bg_path, meme_path, face_path, music_path, output_path, id = files
 
     """Load files"""
     # Background file type
@@ -167,23 +105,17 @@ def make_composite(
 
     """Writing result"""
     result.write_videofile(output_path, fps=FPS, codec="libx264", audio_codec="aac")
+    return output_path, duration, id
+
+
+# Standard composition
+def step_compose(d):
+    files = get_random_files(d)
+    output_path, duration, id = make_composite(files)
+    update_data_file(files, duration, id)
     return output_path
 
 
 
 if __name__ == "__main__":
-    bg_path, meme_path, face_path, music_path, output_path = get_random_files()
-    print()
-    print(f"Background: {bg_path}")
-    print(f"Meme: {meme_path}")
-    print(f"Face: {face_path}")
-    print(f"Music: {music_path}")
-    image = make_composite(
-        bg_path=bg_path,
-        meme_path=meme_path,
-        face_path=face_path,
-        music_path=music_path,        
-        out_path=output_path,
-    )
-    
-    print("Done:", image, "and clip.mp4")
+    step_compose()
