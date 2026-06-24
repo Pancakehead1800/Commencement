@@ -21,8 +21,14 @@ def get_random_file(d, purpose, id):
     while i < MAX_ITERATIONS:
         i += 1
         file = random.choice(os.listdir(path))
-        last_used = d.stats[stats][file]["last_used"]
-        if id - last_used - 1 >= TIME_BETWEEN_USE:
+
+        last_used = 0
+        if file in d.stats[stats]:
+            last_used = d.stats[stats][file]["last_used"]
+        else:
+            last_used = 0
+
+        if (last_used == 0) or (id - last_used - 1 >= TIME_BETWEEN_USE):
             res = file
             break
 
@@ -37,12 +43,19 @@ def get_next_id(d):
         
 
 def get_all_random_files(d, id):
-    bg_path    = get_random_file(d, "bg", id)
-    meme_path  = get_random_file(d, "meme", id)
-    face_path  = get_random_file(d, "face", id)
-    music_path = get_random_file(d, "music", id)
+    bg    = get_random_file(d, "bg", id)
+    meme  = get_random_file(d, "meme", id)
+    face  = get_random_file(d, "face", id)
+    music = get_random_file(d, "music", id)
+
+    bg_path    = os.path.join(BGS_PATH, bg)
+    meme_path  = os.path.join(READY_MEMES_PATH, meme)
+    face_path  = os.path.join(READY_FACES_PATH, face)
+    music_path = os.path.join(MUSIC_PATH, music)
+
     output_path = os.path.join(OUTPUTS_PATH, f"{id}.mp4")
-    files = (bg_path, meme_path, face_path, music_path, output_path)
+    
+    files = (bg_path, meme_path, face_path, music_path, output_path, id)
     return files
         
 
