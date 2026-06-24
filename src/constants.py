@@ -18,6 +18,11 @@ DATA_STORAGE_PATH = "data.pkl"
 DATA_CLASS_PATH   = "src/data.py"
 
 
+# File Choosing
+MAX_ITERATIONS = 1000
+TIME_BETWEEN_USE = 25
+
+
 # Video Specifications
 DEFAULT_MEME_DURATION = 10
 FPS = 30

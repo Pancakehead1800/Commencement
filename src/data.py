@@ -147,5 +147,6 @@ class Data:
 
 
 if __name__ == "__main__":
+    # Clear existing data
     d = Data()
     d.save()

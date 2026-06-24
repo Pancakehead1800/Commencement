@@ -17,29 +17,6 @@ def check_file_type(path):
         return 'other'
 
 
-# Randomly choose files
-def get_random_files(d):
-    """Get random input files"""
-    bg    = random.choice(os.listdir(BGS_PATH))
-    meme  = random.choice(os.listdir(READY_MEMES_PATH))
-    face  = random.choice(os.listdir(READY_FACES_PATH))
-    music = random.choice(os.listdir(MUSIC_PATH))
-
-    """Create input paths"""
-    bg_path    = os.path.join(BGS_PATH, bg)
-    meme_path  = os.path.join(READY_MEMES_PATH, meme)
-    face_path  = os.path.join(READY_FACES_PATH, face)
-    music_path = os.path.join(MUSIC_PATH, music)
-
-    """Get next output number"""
-    count = d.get_count()
-    id = count + 1
-    output_path = os.path.join(OUTPUTS_PATH, f"{id}.mp4")
-    
-    """Return"""
-    return (bg_path, meme_path, face_path, music_path, output_path, id)
-
-
 # Update data file with new upload
 def update_data_files(d, files, duration, id):
     bg_path, meme_path, face_path, music_path, output_path, id = files
@@ -81,7 +58,7 @@ def make_composite(files) -> CompositeVideoClip:
     else:
         print(f"Bad meme file type: {meme_type}")
 
-    face = ImageClip(face_path)
+    face  = ImageClip(face_path)
     audio = AudioFileClip(music_path)
 
     """Editing files"""
@@ -109,8 +86,7 @@ def make_composite(files) -> CompositeVideoClip:
 
 
 # Standard composition
-def step_compose(d):
-    files = get_random_files(d)
+def step_compose(d, files):
     output_path, duration, id = make_composite(files)
     update_data_files(d, files, duration, id)
     return output_path
@@ -120,12 +96,12 @@ def step_compose(d):
 if __name__ == "__main__":
     from data import Data
     d = Data.load()
-    # step_compose(d)
-    bg_path = "db_bgs/stockfootage0525.mp4"
-    meme_path = "db_memes_ready/yx0lur8puvn51.mp4"
-    face_path = "db_faces_ready/IMG_E8459_preview.png"
-    music_path = "db_music/classic.mp3"
-    output_path = "db_outputs/test.mp4"
-    id = 69
-    files = (bg_path, meme_path, face_path, music_path, output_path, id)
-    make_composite(files)
+    step_compose(d)
+    # bg_path = "db_bgs/stockfootage0525.mp4"
+    # meme_path = "db_memes_ready/yx0lur8puvn51.mp4"
+    # face_path = "db_faces_ready/IMG_E8459_preview.png"
+    # music_path = "db_music/classic.mp3"
+    # output_path = "db_outputs/test.mp4"
+    # id = 69
+    # files = (bg_path, meme_path, face_path, music_path, output_path, id)
+    # make_composite(files)
