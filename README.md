@@ -51,6 +51,25 @@
     2. Make scheduled task to run a container to randomly choose meme, add face, add music, and background, and format
     3. Then make task to randomly choose a finalized video to post to Youtube shorts
 
+## Another update:
+- We have the main editing working, BUT:
+    1. We need MEMES (easy)
+    2. We need MUSIC (tedius, ok)
+    3. We need FACES (difficult: use Max + Cocoa once Immich loads, but need to remove bg)
+    4. We need BACKGROUNDS (easy-ish, but need to compress)
+- After all that, we need:
+    1. Run it a few times
+    2. Make uploading script
+    3. Figure out how to get it constantly running
+    4. Start uploading
+We have 2 decent videos already, and once we get 12 that'll give us (12 x 6 hours = 72 hours =) 3 days to make more.
+Of course, we will eventually want to decrease the upload rate to 1 every 4 hours, and none during the night.
+Some more upgrades:
+1. Every 4 hours -> Every 4 hours +/- 15 minutes
+2. Prevent duplicate uploads (change data objects in data.json) and Even out file usage
+3. Not sures
+
+
 # Sources
 
 ## Memes:
