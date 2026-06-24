@@ -10,6 +10,7 @@ Example of the Data structure:
             "meme": "db_memes_ready/meme1.png",
             "face": "db_faces_ready/face1.png",
             "music": "db_music/music1.mp3",
+            "path": "db_outputs/1.mp4",
             "duration": 10
         },
         "2": 
@@ -18,6 +19,7 @@ Example of the Data structure:
             "meme": "db_memes_ready/meme2.png",
             "face": "db_faces_ready/face1.png",
             "music": "db_music/music1.mp3",
+            "path": "db_outputs/2.mp4",
             "duration": 12
         }
     },
@@ -73,14 +75,14 @@ Functions to include:
 def get_count() ->
     return data["count"]
 
-def use_file(purpose, file, number) -> 
+def use_file(purpose, file, id) -> 
     data[f"{purpose}_stats"][file]["count"] += 1
-    data[f"{purpose}_stats"][file]["last_used"] = number
+    data[f"{purpose}_stats"][file]["last_used"] = id
     return None
 
-def add_composition(bg, meme, face, music, duration, number) ->
+def add_composition(bg, meme, face, music, path, duration, id) ->
     data["count"] += 1
-    data["compositions"][number] = {"bg": bg, "meme": meme, "face": face, "music": music, "duration": duration}
+    data["compositions"][id] = {"bg": bg, "meme": meme, "face": face, "music": music, "path": path, "duration": duration}
     return None
 
 def write_data() -> 
@@ -105,31 +107,33 @@ class Data:
     def get_count(self) -> int:
         return self.count
     
-    def use_file(self, purpose, file, number) -> None:
+    def use_file(self, purpose, file, id) -> None:
         purpose = f"{purpose}_stats"
 
         if file not in self.purpose:
             self.purpose[file] = {"count": 0, "last_used": 0}
         
         self.purpose[file]["count"] += 1
-        self.purpose[file]["last_used"] = number
+        self.purpose[file]["last_used"] = id
         return None
     
-    def add_composition(self, bg, meme, face, music, duration, number) -> None:
+    def add_composition(self, bg, meme, face, music, path, duration, id) -> None:
         self.count += 1
-        self.compositions[number] = {
+        self.compositions[id] = {
             "bg":       bg,
             "meme":     meme,
             "face":     face,
             "music":    music,
+            "path":     path,
             "duration": duration
         }
         return None
     
-    def write_data(self):
+    def save_data(self):
         with open(DATA_STORAGE_PATH, "wb") as file:
             pickle.dump(self, file)
 
-    def read_data(self):
-        with open(DATA_STORAGE_PATH, "r") as file:
-            self = pickle.load(file)
+    @classmethod
+    def load_data(cls):
+        with open(DATA_STORAGE_PATH, "rb") as file:
+            return pickle.load(file)
