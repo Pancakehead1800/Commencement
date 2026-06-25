@@ -10,24 +10,35 @@ def convert_webp_to_jpg(input_path, output_path):
     try:
         with Image.open(input_path) as image:
             image.save(output_path, "JPEG", quality=85, optimize=True)
+        os.remove(input_path)
     except Exception as e:
         print(f"Error converting {input_path} from webp to jpg: {e}") 
 
 
 # .webp -> jpg FOR ALL .webp IN db_memes_raw
 # Used for: Memes
-def convert_all_webp_to_jpg(input_folder, output_folder):
+def convert_raw_memes(input_folder, output_folder):
     files = os.listdir(input_folder)
 
     for file in files:
         root, ext = os.path.splitext(file)
         input_path = os.path.join(input_folder, file)
-        output_path = os.path.join(output_folder, f"{root}.jpg")
-        if os.path.isfile(output_path):
-            continue
-        convert_webp_to_jpg(input_path, output_path)
+        if ext == ".mp4":
+            output_path = os.path.join(output_folder, f"{root}.mp4")
+            if os.path.isfile(output_path):
+                continue
+            with open(input_path, "rb") as src:
+                with open(output_path, "wb") as dst:
+                    dst.write(src.read())
+            os.remove(input_path)
 
-
+        else:
+            output_path = os.path.join(output_folder, f"{root}.jpg")
+            if os.path.isfile(output_path):
+                continue
+            convert_webp_to_jpg(input_path, output_path)
+        
+    
 # Remove bg
 # Used for: Faces
 def convert_to_clear_png(input_path, output_path):
@@ -53,5 +64,8 @@ def convert_all_to_clear_png(input_folder, output_folder):
         convert_to_clear_png(input_path, output_path)
 
 
-# convert_all_webp_to_jpg(RAW_MEMES_PATH, READY_MEMES_PATH)
-convert_all_to_clear_png(RAW_FACES_PATH, READY_FACES_PATH)
+if __name__ == "__main__":
+    convert_raw_memes(RAW_MEMES_PATH, READY_MEMES_PATH)
+    convert_all_to_clear_png(RAW_FACES_PATH, READY_FACES_PATH)
+
+
