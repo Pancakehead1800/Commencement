@@ -36,6 +36,7 @@ def convert_raw_memes(input_folder, output_folder):
         root, ext = os.path.splitext(file)
         input_path = os.path.join(input_folder, file)
         output_path = os.path.join(output_folder, f"{root}{output_map[ext]}")
+        os.remove(input_path)
         if os.path.isfile(output_path): continue
         convert_meme(input_path, output_path)
         
