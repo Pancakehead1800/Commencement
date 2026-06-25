@@ -20,7 +20,7 @@ def check_file_type(path):
 # Update data file with new upload
 def update_data_files(d, files, duration, id):
     bg_path, meme_path, face_path, music_path, output_path, id = files
-    d.add_composition(bg_path, meme_path, face_path, music_path, output_path, duration, id)
+    d.add_comp(bg_path, meme_path, face_path, music_path, output_path, duration, id)
     d.use_file("bg", bg_path, id)
     d.use_file("meme", meme_path, id)
     d.use_file("face", face_path, id)

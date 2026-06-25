@@ -7,7 +7,7 @@ Example of the Data structure:
         "1": 
         {
             "bg": "db_bgs/bg1.png",
-            "meme": "db_memes_ready/meme1.png",
+            "meme": "db_memes_ready/meme1.jpg",
             "face": "db_faces_ready/face1.png",
             "music": "db_music/music1.mp3",
             "path": "db_outputs/1.mp4",
@@ -16,7 +16,7 @@ Example of the Data structure:
         "2": 
         {
             "bg": "db_bgs/bg2.png",
-            "meme": "db_memes_ready/meme2.png",
+            "meme": "db_memes_ready/meme2.jpg",
             "face": "db_faces_ready/face1.png",
             "music": "db_music/music1.mp3",
             "path": "db_outputs/2.mp4",
@@ -40,12 +40,12 @@ Example of the Data structure:
         },
         "meme_stats":
         {
-            "db_memes_ready/meme1.png": 
+            "db_memes_ready/meme1.jpg": 
             {
                 "count": 1,
                 "last_used": 1
             },
-            "db_memes_ready/meme2.png": 
+            "db_memes_ready/meme2.jpg": 
             {
                 "count": 1,
                 "last_used": 2
@@ -67,6 +67,11 @@ Example of the Data structure:
                 "last_used": 2
             }
         }
+    },
+    "files":
+    {
+        "memes": set{meme1.webp, meme2.webp},
+        "faces": set{face1.jpg, face2.heic}
     }
 }
 """
@@ -101,18 +106,31 @@ from constants import *
 
 class Data:
     def __init__(self):
-        self.count        = 0
-        self.compositions = {}
+        self.count = 0
+        self.comps = {}
         self.stats = {}
+        self.files = {}
 
         self.stats["bg_stats"]    = {}
         self.stats["meme_stats"]  = {}
         self.stats["face_stats"]  = {}
         self.stats["music_stats"] = {}
 
+        self.files["memes"] = set()
+        self.files["faces"] = set()
+
+    # Get composition count
     def get_count(self) -> int:
         return self.count
     
+    # Check if we have already downloaded this file before
+    def check_download(self, purpose, file) -> bool:
+        purpose = purpose + "s"
+        if file in self.files[purpose]:
+            return False
+        return True
+
+    # Update the statistics of the file
     def use_file(self, purpose, file, id) -> None:
         purpose = f"{purpose}_stats"
 
@@ -124,9 +142,10 @@ class Data:
 
         return None
     
-    def add_composition(self, bg, meme, face, music, path, duration, id) -> None:
+    # Add new composition
+    def add_comp(self, bg, meme, face, music, path, duration, id) -> None:
         self.count += 1
-        self.compositions[id] = {
+        self.comps[id] = {
             "bg":       bg,
             "meme":     meme,
             "face":     face,
@@ -136,13 +155,12 @@ class Data:
         }
         return None
     
-    def initialize(self):
-        pass
-    
+    # Save data to data.pkl
     def save(self):
         with open(DATA_STORAGE_PATH, "wb") as file:
             pickle.dump(self, file)
 
+    # Load data from data.pkl
     @classmethod
     def load(cls):
         with open(DATA_STORAGE_PATH, "rb") as file:
@@ -151,5 +169,7 @@ class Data:
 
 if __name__ == "__main__":
     # Clear existing data
-    d = Data()
-    d.save()
+    wipe = input("Wipe all data? [y/n]: ")
+    if wipe.lower() in ["y", "yes"]:
+        d = Data()
+        d.save()

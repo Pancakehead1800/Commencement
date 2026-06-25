@@ -3,6 +3,7 @@ from rembg import remove
 from pillow_heif import register_heif_opener
 from constants import *
 import os
+from data import Data
 
 
 """=============== MEMES ==============="""
@@ -25,7 +26,7 @@ def convert_meme(input_path, output_path, ext):
             print(f"Error converting {input_path} from webp to jpg: {e}") 
 
 # Raw memes -> Ready memes
-def convert_raw_memes(input_folder, output_folder):
+def convert_raw_memes(d, input_folder, output_folder):
     files = os.listdir(input_folder)
 
     output_map = {
@@ -39,6 +40,7 @@ def convert_raw_memes(input_folder, output_folder):
         output_path = os.path.join(output_folder, f"{root}{output_map[ext]}")
         os.remove(input_path)
         if os.path.isfile(output_path): continue
+        if d.check_download(input_path): continue
         convert_meme(input_path, output_path)
         
 
@@ -56,7 +58,7 @@ def convert_face(input_path, output_path):
         print(f"Error converting {input_path} from jpg to png without background: {e}")
 
 # Remove all bg
-def convert_raw_faces(input_folder, output_folder):
+def convert_raw_faces(d, input_folder, output_folder):
     files = os.listdir(input_folder)
     
     for file in files:
@@ -65,11 +67,13 @@ def convert_raw_faces(input_folder, output_folder):
         output_path = os.path.join(output_folder, f"{root}.png")
         os.remove(input_path)
         if os.path.isfile(output_path): continue
+        if d.check_download(input_path): continue
         convert_face(input_path, output_path)
 
 
 if __name__ == "__main__":
-    convert_raw_memes(RAW_MEMES_PATH, READY_MEMES_PATH)
-    convert_raw_faces(RAW_FACES_PATH, READY_FACES_PATH)
+    d = Data.load()
+    convert_raw_memes(d, RAW_MEMES_PATH, READY_MEMES_PATH)
+    convert_raw_faces(d, RAW_FACES_PATH, READY_FACES_PATH)
 
 
