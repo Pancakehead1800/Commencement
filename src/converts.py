@@ -4,43 +4,43 @@ from pillow_heif import register_heif_opener
 from constants import *
 import os
 
-# .webp -> .jpg
-# Used for: Memes
-def convert_webp_to_jpg(input_path, output_path):
-    try:
-        with Image.open(input_path) as image:
-            image.save(output_path, "JPEG", quality=85, optimize=True)
-        os.remove(input_path)
-    except Exception as e:
-        print(f"Error converting {input_path} from webp to jpg: {e}") 
+
+# Raw meme -> Ready meme
+def convert_meme(input_path, output_path, ext):
+    """.mp4 memes are directly copied"""
+    if ext == ".mp4":
+        with open(input_path, "rb") as src:
+            with open(output_path, "wb") as dst:
+                dst.write(src.read())
+
+    """.webp memes are converted to .jpg"""
+    if ext == ".webp":
+        try:
+            with Image.open(input_path) as image:
+                image.save(output_path, "JPEG", quality=85, optimize=True)
+            os.remove(input_path)
+        except Exception as e:
+            print(f"Error converting {input_path} from webp to jpg: {e}") 
 
 
-# .webp -> jpg FOR ALL .webp IN db_memes_raw
-# Used for: Memes
+# Raw memes -> Ready memes
 def convert_raw_memes(input_folder, output_folder):
     files = os.listdir(input_folder)
+
+    output_map = {
+        ".mp4": ".mp4",
+        ".webp": ".jpg"
+    }
 
     for file in files:
         root, ext = os.path.splitext(file)
         input_path = os.path.join(input_folder, file)
-        if ext == ".mp4":
-            output_path = os.path.join(output_folder, f"{root}.mp4")
-            if os.path.isfile(output_path):
-                continue
-            with open(input_path, "rb") as src:
-                with open(output_path, "wb") as dst:
-                    dst.write(src.read())
-            os.remove(input_path)
-
-        else:
-            output_path = os.path.join(output_folder, f"{root}.jpg")
-            if os.path.isfile(output_path):
-                continue
-            convert_webp_to_jpg(input_path, output_path)
+        output_path = os.path.join(output_folder, f"{root}{output_map[ext]}")
+        if os.path.isfile(output_path): continue
+        convert_meme(input_path, output_path)
         
     
-# Remove bg
-# Used for: Faces
+# Remove bg for faces
 def convert_to_clear_png(input_path, output_path):
     register_heif_opener()
     try:
@@ -50,8 +50,8 @@ def convert_to_clear_png(input_path, output_path):
     except Exception as e:
         print(f"Error converting {input_path} from jpg to png without background: {e}")
 
+
 # Remove all bg
-# Used for: Faces
 def convert_all_to_clear_png(input_folder, output_folder):
     files = os.listdir(input_folder)
     
