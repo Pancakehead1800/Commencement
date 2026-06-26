@@ -103,10 +103,12 @@ def read_data() ->
 import os
 import pickle
 from constants import *
+import pprint
 
 class Data:
     def __init__(self):
         self.count = 0
+        self.opens = []
         self.comps = {}
         self.stats = {}
         self.files = {}
@@ -155,6 +157,21 @@ class Data:
         }
         return None
     
+    # Delete composition
+    def del_comp(self, id) -> None:
+        # Add id to self.opens
+        n = len(self.opens)
+        if n == 0: 
+            self.opens.append(id)
+        else:
+            for i in range(n):
+                if self.opens[i] > id:
+                    self.opens = self.opens[:i] + [id] + self.opens[i:]
+                    break
+        # Remove data from self.comps
+        self.comps[id] = {}
+        return None
+    
     # Save data to data.pkl
     def save(self):
         with open(DATA_STORAGE_PATH, "wb") as file:
@@ -168,8 +185,14 @@ class Data:
 
 
 if __name__ == "__main__":
+    print("Running data.py")
+
     # Clear existing data
     wipe = input("Wipe all data? [y/n]: ")
     if wipe.lower() in ["y", "yes"]:
         d = Data()
         d.save()
+
+    # Print existing data
+    d = Data.load()
+    pprint.pprint(vars(d))

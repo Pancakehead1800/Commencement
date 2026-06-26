@@ -2,3 +2,4 @@ pillow
 moviepy
 rembg[cpu]
 pillow-heif
+pprint
