@@ -31,12 +31,12 @@ Example of the Data structure:
             "db_bgs/bg1.png": 
             {
                 "count": 1,
-                "last_used": 1
+                "last_used": [1, 3]
             },
             "db_bgs/bg2.png":
             {
                 "count": 1,
-                "last_used": 2
+                "last_used": [2]
             }
         },
         "meme_stats":
@@ -44,12 +44,12 @@ Example of the Data structure:
             "db_memes_ready/meme1.jpg": 
             {
                 "count": 1,
-                "last_used": 1
+                "last_used": [1]
             },
             "db_memes_ready/meme2.jpg": 
             {
                 "count": 1,
-                "last_used": 2
+                "last_used": [2, 3]
             }
         },
         "face_stats":
@@ -57,7 +57,7 @@ Example of the Data structure:
             "db_faces_ready/face1.png":
             {
                 "count": 2,
-                "last_used": 2
+                "last_used": [2]
             }
         },
         "music_stats":
@@ -65,7 +65,7 @@ Example of the Data structure:
             "db_music/music1.mp3": 
             {
                 "count": 2,
-                "last_used": 2
+                "last_used": [2]
             }
         }
     },
