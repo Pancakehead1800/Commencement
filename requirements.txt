@@ -2,4 +2,5 @@ pillow
 moviepy
 rembg[cpu]
 pillow-heif
-pprint
+pydub
+audioop-lts
