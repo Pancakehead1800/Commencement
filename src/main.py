@@ -6,8 +6,10 @@ from data import Data
 
 if __name__ == "__main__":
 
+    print("Loading data...")
+    d = Data.load()
+
     """ Very friendly UI for choosing specific files """
-    """ Just enter the file name and don't worry about database folders """
     bg_path    = None
     meme_path  = None
     face_path  = None
@@ -18,23 +20,48 @@ if __name__ == "__main__":
     if face_path != None: face_path = READY_FACES_PATH + face_path
     if music_path != None: music_path = MUSIC_PATH + music_path
 
+    
+    """ Create a video """
+    create = input("Create new video? [y/n]: ")
+    if create == "y":
+        print("Choosing files...")
+        files = step_choose(d, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
 
+        print("Composing video...")
+        path  = step_compose(d, files)
 
-    """ Main sequence """
-    print("Loading data...")
-    d = Data.load()
+        print("Uploading video...")
+        video = step_upload(d, path)
 
-    print("Choosing files...")
-    files = step_choose(d, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
+        print("Done!")
+        print(f"Video uploaded to: {video}")
 
-    print("Composing video...")
-    path  = step_compose(d, files)
+    
 
-    print("Uploading video...")
-    video = step_upload(d, path)
+    """ Delete a video """
+    delete = input("Delete a composition? [y/n]")
+    if delete == "y":
+        id = int(input("What is the video id? "))
+        d.del_comp(id)
 
-    print("Done!")
-    print(f"Video uploaded to: {video}")
+    
+    """ Rewrite a video """
+    rewrite = input("Rewrite a composition? [y/n]")
+    if rewrite == "y":
+        id = int(input("What is the video id? "))
+        d.rewrite_comp(id, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
+        
+        print("Choosing files...")
+        files = step_choose(d, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
+
+        print("Composing video...")
+        path  = step_compose(d, files)
+
+        print("Uploading video...")
+        video = step_upload(d, path)
+
+        print("Done!")
+        print(f"Video uploaded to: {video}")
 
 
 

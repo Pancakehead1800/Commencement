@@ -2,6 +2,7 @@
 Example of the Data structure:
 {
     "count": 2,
+    "opens": [0, 3, 16]
     "compositions": 
     {
         "1": 
@@ -76,30 +77,6 @@ Example of the Data structure:
 }
 """
 
-
-"""
-Functions to include:
-
-def get_count() ->
-    return data["count"]
-
-def use_file(purpose, file, id) -> 
-    data[f"{purpose}_stats"][file]["count"] += 1
-    data[f"{purpose}_stats"][file]["last_used"] = id
-    return None
-
-def add_composition(bg, meme, face, music, path, duration, id) ->
-    data["count"] += 1
-    data["compositions"][id] = {"bg": bg, "meme": meme, "face": face, "music": music, "path": path, "duration": duration}
-    return None
-
-def write_data() -> 
-    pickle.write_the_data
-
-def read_data() ->
-    pickle.get_the_data
-"""
-
 import os
 import pickle
 from constants import *
@@ -164,6 +141,17 @@ class Data:
             "duration": duration
         }
         return None
+
+    # Update file stats
+    def update_file_stats(self, purpose, file, id) -> None:
+        purpose = f"{purpose}_stats"
+        if file in self.stats[purpose]:
+            self.stats[purpose][file]["count"] += 1
+            self.stats[purpose][file]["last_used"] = max(id, self.stats[purpose][file]["last_used"])
+        else:
+            self.stats[purpose][file] = {}
+            self.stats[purpose][file]["count"] = 1
+            self.stats[purpose][file]["last_used"] = id
     
     # Delete composition
     def del_comp(self, id) -> None:
@@ -179,6 +167,22 @@ class Data:
         # Remove data from self.comps
         self.comps[id] = {}
         return None
+    
+    # Rewrite composition with different files
+    def rewrite_comp(self, id, bg=None, meme=None, face=None, music=None) -> None:
+        if bg != None:
+            self.comps[id][bg] = bg
+            self.update_file_stats("bg", bg, id)
+        if meme != None:
+            self.comps[id][meme] = meme
+            self.update_file_stats("meme", meme, id)
+        if face != None:
+            self.comps[id][face] = face
+            self.update_file_stats("face", face, id)
+        if music != None:
+            self.comps[id][music] = music
+            self.update_file_stats("music", music, id)
+        self.save()
     
     # Save data to data.pkl
     def save(self):
