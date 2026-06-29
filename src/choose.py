@@ -39,7 +39,7 @@ def get_random_file(d, purpose, id):
 
 
 def get_next_id(d):
-    return d.get_count() + 1
+    return d.get_next_id()
         
 
 def get_all_random_files(
