@@ -12,26 +12,37 @@ def position_bg(bg):
 
 # Position the meme with slight randomness
 def position_meme(meme: ImageClip | VideoFileClip) -> ImageClip | VideoFileClip:
-    """Resize first so we know the final dimensions"""
-    meme = meme.resized(width=VIDEO_WIDTH - 2 * JITTER_X)
-    w, h = meme.w, meme.h
+    """Constants"""
+    meme_w, meme_h = meme.w, meme.h
+    ratio1 = meme_h / meme_w
+    ratio2 = meme_w / meme_h
 
-    """Center position"""
-    cx = 0.5 * VIDEO_WIDTH
-    cy = 0.35 * VIDEO_HEIGHT
+    """Resizing the meme"""
+    # Approach 1: hit side bound
+    new_w1 = VIDEO_WIDTH - 2 * SIDE_MEME_PADDING
 
-    x = cx - w / 2
-    y = cy - h / 2
+    # Approach 2: hit lower bound
+    new_h2 = VIDEO_HEIGHT - UPPDER_MEME_PADDING - LOWER_MEME_PADDING
+    new_w2 = ratio2 * new_h2
 
-    """Slight randomness"""
-    x += random.uniform(-JITTER_X, JITTER_X)
-    y += random.uniform(-JITTER_Y, JITTER_Y)
+    if new_w1 <= new_w2:
+        meme_w = new_w1
+        meme_h = ratio1 * meme_w
+    elif new_w1 > new_w2:
+        meme_w = new_w2
+        meme_h = new_h2
 
-    x = max(0, min(x, VIDEO_WIDTH - w))
-    y = max(0, min(y, VIDEO_HEIGHT - h))
+    meme = meme.resized(width=meme_w, height=meme_h)
 
-    """Return"""
-    return meme.with_position((x, y))
+    """Positioning the meme"""
+    cx = VIDEO_WIDTH / 2
+    cy = UPPDER_MEME_PADDING + meme_h / 2
+
+    x = cx - meme_w / 2
+    y = cy - meme_h / 2
+
+    meme = meme.with_position((x, y))
+    return meme
 
 
 # Face should take 60% width and be flush to the bottom
