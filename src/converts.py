@@ -1,6 +1,7 @@
 from PIL import Image
 from rembg import remove
 from pillow_heif import register_heif_opener
+from pydub import AudioSegment
 from constants import *
 import os
 from data import Data
@@ -42,6 +43,7 @@ def convert_raw_memes(d, input_folder, output_folder):
         if os.path.isfile(output_path): continue
         if d.check_download(input_path): continue
         convert_meme(input_path, output_path)
+        print(f"Saving {output_path}")
         
 
 """=============== FACES ==============="""
@@ -69,11 +71,38 @@ def convert_raw_faces(d, input_folder, output_folder):
         if os.path.isfile(output_path): continue
         if d.check_download(input_path): continue
         convert_face(input_path, output_path)
+        print(f"Saving {output_path}")
+
+
+
+"""=============== MUSIC ==============="""
+
+# Convert [m4a] to mp3
+def convert_music(folder):
+    files = os.listdir(folder)
+    
+    for file in files:
+        root, ext = os.path.splitext(file)
+        input_path = os.path.join(folder, file)
+        output_path = os.path.join(folder, f"{root}.mp3")
+        if os.path.isfile(output_path): continue
+        print(f"Saving {output_path}")
+
+        if ext == "m4a":
+            audio = AudioSegment.from_file(input_path, format="m4a")
+            audio.export(output_path, format="mp3", bitrate="192k")
+            os.remove(input_path)
 
 
 if __name__ == "__main__":
     d = Data.load()
+    print("\nConverting memes...")
     convert_raw_memes(d, RAW_MEMES_PATH, READY_MEMES_PATH)
+
+    print("\nConverting faces...")
     convert_raw_faces(d, RAW_FACES_PATH, READY_FACES_PATH)
+
+    print("\nConverting music...")
+    convert_music(MUSIC_PATH)
 
 
