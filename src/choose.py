@@ -87,7 +87,7 @@ def get_all_random_files(
     return files
         
 
-def step_choose(d, bg_path=None, meme_path=None, face_path=None, music_path=None):
-    id = get_next_id(d)
+def step_choose(d, id=None, bg_path=None, meme_path=None, face_path=None, music_path=None):
+    id = get_next_id(d) if id == None else id
     files = get_all_random_files(d, id, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
     return files
