@@ -78,20 +78,20 @@ def convert_raw_faces(d, input_folder, output_folder):
 """=============== MUSIC ==============="""
 
 # Convert [m4a] to mp3
-def convert_music(folder):
-    files = os.listdir(folder)
+# def convert_music(folder):
+#     files = os.listdir(folder)
     
-    for file in files:
-        root, ext = os.path.splitext(file)
-        input_path = os.path.join(folder, file)
-        output_path = os.path.join(folder, f"{root}.mp3")
-        if os.path.isfile(output_path): continue
-        print(f"Saving {output_path}")
+#     for file in files:
+#         root, ext = os.path.splitext(file)
+#         input_path = os.path.join(folder, file)
+#         output_path = os.path.join(folder, f"{root}.mp3")
+#         if os.path.isfile(output_path): continue
+#         print(f"Saving {output_path}")
 
-        if ext == "m4a":
-            audio = AudioSegment.from_file(input_path, format="m4a")
-            audio.export(output_path, format="mp3", bitrate="192k")
-            os.remove(input_path)
+#         if ext == "m4a":
+#             audio = AudioSegment.from_file(input_path, format="m4a")
+#             audio.export(output_path, format="mp3", bitrate="192k")
+#             os.remove(input_path)
 
 
 if __name__ == "__main__":
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     print("\nConverting faces...")
     convert_raw_faces(d, RAW_FACES_PATH, READY_FACES_PATH)
 
-    print("\nConverting music...")
-    convert_music(MUSIC_PATH)
+    # print("\nConverting music...")
+    # convert_music(MUSIC_PATH)
 
 
