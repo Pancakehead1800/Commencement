@@ -23,12 +23,25 @@ def get_random_file(d, purpose, id):
         file = random.choice(os.listdir(path))
 
         last_used = 0
-        if file in d.stats[stats]:
-            last_used = d.stats[stats][file]["last_used"]
-        else:
-            last_used = 0
+        last_used = d.stats[stats][file].get("last_used", 0)
 
-        if (last_used == 0) or (id - last_used - 1 >= TIME_BETWEEN_USE):
+        if (last_used == 0):
+            res = file
+            break
+            
+        elif (purpose == "meme") and (id - last_used - 1 >= TIME_BETWEEN_MEMES):
+            res = file
+            break
+            
+        elif (purpose == "face") and (id - last_used - 1 >= TIME_BETWEEN_FACES):
+            res = file
+            break
+            
+        elif (purpose == "bg") and (id - last_used - 1 >= TIME_BETWEEN_BGS):
+            res = file
+            break
+            
+        elif (purpose == "music") and (id - last_used - 1 >= TIME_BETWEEN_MUSICS):
             res = file
             break
 
