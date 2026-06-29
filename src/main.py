@@ -67,6 +67,7 @@ if __name__ == "__main__":
 
 
     """ Because the uploader isn't working yet, just log the uploads here"""
-    uploaded_files = [3, 2, 0]
+    """ First upload ... Last upload"""
+    uploaded_files = [3, 2, 0, 4]
 
 
