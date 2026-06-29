@@ -3,6 +3,7 @@ from compose import step_compose
 from uploader import step_upload
 from constants import *
 from data import Data
+import os
 
 if __name__ == "__main__":
 
@@ -13,12 +14,12 @@ if __name__ == "__main__":
     bg_path    = None
     meme_path  = None
     face_path  = None
-    music_path = None
+    music_path = "end_of_beginning_sad.mp3"
 
-    if bg_path != None: bg_path = BGS_PATH + bg_path
-    if meme_path != None: meme_path = READY_MEMES_PATH + meme_path
-    if face_path != None: face_path = READY_FACES_PATH + face_path
-    if music_path != None: music_path = MUSIC_PATH + music_path
+    if bg_path != None: bg_path = os.path.join(BGS_PATH, bg_path)
+    if meme_path != None: meme_path = os.path.join(READY_MEMES_PATH, meme_path)
+    if face_path != None: face_path = os.path.join(READY_FACES_PATH, face_path)
+    if music_path != None: music_path = os.path.join(MUSIC_PATH, music_path)
 
     
     """ Create a video """
@@ -50,7 +51,7 @@ if __name__ == "__main__":
     if rewrite == "y":
         id = int(input("What is the video id? "))
         d.rewrite_comp(id, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
-        
+
         print("Choosing files...")
         files = step_choose(d, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
 

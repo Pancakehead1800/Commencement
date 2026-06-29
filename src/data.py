@@ -169,19 +169,19 @@ class Data:
         return None
     
     # Rewrite composition with different files
-    def rewrite_comp(self, id, bg=None, meme=None, face=None, music=None) -> None:
-        if bg != None:
-            self.comps[id][bg] = bg
-            self.update_file_stats("bg", bg, id)
-        if meme != None:
-            self.comps[id][meme] = meme
-            self.update_file_stats("meme", meme, id)
-        if face != None:
-            self.comps[id][face] = face
-            self.update_file_stats("face", face, id)
-        if music != None:
-            self.comps[id][music] = music
-            self.update_file_stats("music", music, id)
+    def rewrite_comp(self, id, bg_path=None, meme_path=None, face_path=None, music_path=None) -> None:
+        if bg_path != None:
+            self.comps[id][bg_path] = bg_path
+            self.update_file_stats("bg", bg_path, id)
+        if meme_path != None:
+            self.comps[id][meme_path] = meme_path
+            self.update_file_stats("meme", meme_path, id)
+        if face_path != None:
+            self.comps[id][face_path] = face_path
+            self.update_file_stats("face", face_path, id)
+        if music_path != None:
+            self.comps[id][music_path] = music_path
+            self.update_file_stats("music", music_path, id)
         self.save()
     
     # Save data to data.pkl
