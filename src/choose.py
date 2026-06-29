@@ -23,7 +23,8 @@ def get_random_file(d, purpose, id):
         file = random.choice(os.listdir(path))
 
         last_used = 0
-        last_used = d.stats[stats][file].get("last_used", 0)
+
+        last_used = d.stats[stats].get(file, {"last_used":0})["last_used"]
 
         if (last_used == 0):
             res = file
