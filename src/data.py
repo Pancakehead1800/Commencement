@@ -121,9 +121,17 @@ class Data:
         self.files["memes"] = set()
         self.files["faces"] = set()
 
-    # Get composition count
-    def get_count(self) -> int:
-        return self.count
+    # Get next id
+    def get_next_id(self) -> int:
+        res = 0
+        if len(self.opens) == 0:
+            res = self.count
+            self.count += 1
+        else:
+            res = self.opens[0]
+            self.opens = self.opens[1:]
+        return res
+    
     
     # Check if we have already downloaded this file before
     def check_download(self, purpose, file) -> bool:
