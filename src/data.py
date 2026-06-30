@@ -159,8 +159,8 @@ class Data:
             self.stats[purpose_stats][file]["last_used"] = SortedList([id])
             
         old_file = self.comps[id][purpose]
-        self.stats[purpose_stats]["count"] -= 1
-        self.stats[purpose_stats]["last_used"].remove(id)
+        self.stats[purpose_stats][old_file]["count"] -= 1
+        self.stats[purpose_stats][old_file]["last_used"].remove(id)
         return None
     
     # Delete composition
