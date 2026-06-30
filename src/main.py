@@ -67,10 +67,3 @@ if __name__ == "__main__":
     print_data = input("Print current data? [y/n]: ")
     if print_data == "y":
         pprint.pprint(vars(d))
-
-
-    """ Because the uploader isn't working yet, just log the uploads here"""
-    """ First upload ... Last upload"""
-    # uploaded_files = [3, 2, 0, 4]
-
-

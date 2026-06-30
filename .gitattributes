@@ -1,5 +1,5 @@
 db_bgs/* filter=lfs diff=lfs merge=lfs -text
 db_memes/* filter=lfs diff=lfs merge=lfs -text
 db_music/* filter=lfs diff=lfs merge=lfs -text
-db_misc/* filter=lfs diff=lfs merge=lfs -text
 db_faces/* filter=lfs diff=lfs merge=lfs -text
+db_outputs/* filtre=lfs diff=lfs merge=lfs -text
