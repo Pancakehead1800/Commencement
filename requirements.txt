@@ -4,3 +4,4 @@ rembg[cpu]
 pillow-heif
 pydub
 audioop-lts
+sortedcontainers
