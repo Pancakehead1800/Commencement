@@ -19,6 +19,8 @@ if __name__ == "__main__":
         choose = input("Choose specific files? [y/n]: ")
         if choose == "y":
             bg_path, meme_path, face_path, music_path = select_paths()
+        else:
+            bg_path = meme_path = face_path = music_path = None
             
         print("Choosing files...")
         files = step_choose(d, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
