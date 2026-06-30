@@ -129,6 +129,19 @@ class Data:
             self.stats[purpose][file] = {"count": 1, "last_used": SortedList([id])}
 
         return None
+        
+    # Check if last usage of specified file was not long enough ago
+    def check_file_usage(self, purpose, file, id, time_between) -> bool:
+        purpose = f"{purpose}_stats"
+        
+        if file not in self.stats[purpose]:
+            return True
+        elif id < self.stats[purpose]["last_used"]:
+            return True
+        elif (id - self.stats[purpose]["last_used"] - 1) <= time_between:
+            return True
+        
+        return False
     
     # Add new composition
     def add_comp(self, bg, meme, face, music, path, duration, id) -> None:
