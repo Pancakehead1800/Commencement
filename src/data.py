@@ -69,11 +69,6 @@ Example of the Data structure:
             }
         }
     },
-    "files":
-    {
-        "memes": set{meme1.webp, meme2.webp},
-        "faces": set{face1.jpg, face2.heic}
-    }
 }
 """
 
@@ -89,15 +84,11 @@ class Data:
         self.opens = []
         self.comps = {}
         self.stats = {}
-        self.files = {}
 
         self.stats["bg_stats"]    = {}
         self.stats["meme_stats"]  = {}
         self.stats["face_stats"]  = {}
         self.stats["music_stats"] = {}
-
-        self.files["memes"] = set()
-        self.files["faces"] = set()
 
     # Get next id
     def get_next_id(self) -> int:
