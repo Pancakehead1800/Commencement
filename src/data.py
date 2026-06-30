@@ -148,14 +148,20 @@ class Data:
 
     # Update file stats
     def update_file_stats(self, purpose, file, id) -> None:
-        purpose = f"{purpose}_stats"
-        if file in self.stats[purpose]:
-            self.stats[purpose][file]["count"] += 1
-            self.stats[purpose][file]["last_used"].add(id)
+        purpose_stats = f"{purpose}_stats"
+        
+        if file in self.stats[purpose_stats]:
+            self.stats[purpose_stats][file]["count"] += 1
+            self.stats[purpose_stats][file]["last_used"].add(id)
         else:
-            self.stats[purpose][file] = {}
-            self.stats[purpose][file]["count"] = 1
-            self.stats[purpose][file]["last_used"] = SortedList([id])
+            self.stats[purpose_stats][file] = {}
+            self.stats[purpose_stats][file]["count"] = 1
+            self.stats[purpose_stats][file]["last_used"] = SortedList([id])
+            
+        old_file = self.comps[id][purpose]
+        self.stats[purpose_stats]["count"] -= 1
+        self.stats[purpose_stats]["last_used"].remove(id)
+        return None
     
     # Delete composition
     def del_comp(self, id) -> None:
@@ -175,17 +181,17 @@ class Data:
     # Rewrite composition with different files
     def rewrite_comp(self, id, bg_path=None, meme_path=None, face_path=None, music_path=None) -> None:
         if bg_path != None:
-            self.comps[id][bg_path] = bg_path
             self.update_file_stats("bg", bg_path, id)
+            self.comps[id][bg_path] = bg_path
         if meme_path != None:
-            self.comps[id][meme_path] = meme_path
             self.update_file_stats("meme", meme_path, id)
+            self.comps[id][meme_path] = meme_path
         if face_path != None:
-            self.comps[id][face_path] = face_path
             self.update_file_stats("face", face_path, id)
+            self.comps[id][face_path] = face_path
         if music_path != None:
-            self.comps[id][music_path] = music_path
             self.update_file_stats("music", music_path, id)
+            self.comps[id][music_path] = music_path
         self.save()
     
     # Save data to data.pkl
