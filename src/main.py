@@ -53,7 +53,7 @@ if __name__ == "__main__":
         files = step_choose(d, id=id, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
 
         print("Composing video...")
-        path  = step_compose(d, files)
+        path  = step_compose(d, files, rewrite=True)
 
         print("Uploading video...")
         video = step_upload(d, path)

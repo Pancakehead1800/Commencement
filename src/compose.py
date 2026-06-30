@@ -87,9 +87,9 @@ def make_composite(files) -> CompositeVideoClip:
 
 
 # Standard composition
-def step_compose(d, files):
+def step_compose(d, files, rewrite=False):
     output_path, duration, id = make_composite(files)
-    update_data_files(d, files, duration, id)
+    if not rewrite: update_data_files(d, files, duration, id)
     return output_path
 
 

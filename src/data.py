@@ -148,14 +148,19 @@ class Data:
 
     # Update file stats
     def update_file_stats(self, purpose, file, id) -> None:
-        purpose = f"{purpose}_stats"
-        if file in self.stats[purpose]:
-            self.stats[purpose][file]["count"] += 1
-            self.stats[purpose][file]["last_used"].add(id)
-        else:
-            self.stats[purpose][file] = {}
-            self.stats[purpose][file]["count"] = 1
-            self.stats[purpose][file]["last_used"] = SortedList([id])
+        purpose_stats = f"{purpose}_stats"
+
+        if file not in self.stats[purpose_stats]:
+            self.stats[purpose_stats][file] = {"count": 0, "last_used": SortedList([])}
+
+        cnt = 0
+        use = SortedList([])
+        for id in range(self.count):
+            if self.comps[id][purpose] == file:
+                cnt += 1
+                use.add(id)
+        self.stats[purpose_stats][file]["count"] += 1
+        self.stats[purpose_stats][file]["last_used"].add(id)
     
     # Delete composition
     def del_comp(self, id) -> None:
@@ -170,21 +175,22 @@ class Data:
                     break
         # Remove data from self.comps
         self.comps[id] = {}
+        self.count -= 1
         return None
     
     # Rewrite composition with different files
     def rewrite_comp(self, id, bg_path=None, meme_path=None, face_path=None, music_path=None) -> None:
         if bg_path != None:
-            self.comps[id][bg_path] = bg_path
+            self.comps[id]["bg"] = bg_path
             self.update_file_stats("bg", bg_path, id)
         if meme_path != None:
-            self.comps[id][meme_path] = meme_path
+            self.comps[id]["meme"] = meme_path
             self.update_file_stats("meme", meme_path, id)
         if face_path != None:
-            self.comps[id][face_path] = face_path
+            self.comps[id]["face"] = face_path
             self.update_file_stats("face", face_path, id)
         if music_path != None:
-            self.comps[id][music_path] = music_path
+            self.comps[id]["music"] = music_path
             self.update_file_stats("music", music_path, id)
         self.save()
     
