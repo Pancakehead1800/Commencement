@@ -147,7 +147,7 @@ class Data:
         return None
 
     # Update file stats
-    def update_file_stats(self, purpose, file, id) -> None:
+    def update_rewrite_file_stats(self, purpose, file, id) -> None:
         purpose_stats = f"{purpose}_stats"
         
         if file in self.stats[purpose_stats]:
@@ -182,16 +182,16 @@ class Data:
     # Rewrite composition with different files
     def rewrite_comp(self, id, bg_path=None, meme_path=None, face_path=None, music_path=None) -> None:
         if bg_path != None:
-            self.update_file_stats("bg", bg_path, id)
+            self.update_rewrite_file_stats("bg", bg_path, id)
             self.comps[id][bg_path] = bg_path
         if meme_path != None:
-            self.update_file_stats("meme", meme_path, id)
+            self.update_rewrite_file_stats("meme", meme_path, id)
             self.comps[id][meme_path] = meme_path
         if face_path != None:
-            self.update_file_stats("face", face_path, id)
+            self.update_rewrite_file_stats("face", face_path, id)
             self.comps[id][face_path] = face_path
         if music_path != None:
-            self.update_file_stats("music", music_path, id)
+            self.update_rewrite_file_stats("music", music_path, id)
             self.comps[id][music_path] = music_path
         self.save()
     
