@@ -81,6 +81,7 @@ import os
 import pickle
 from constants import *
 import pprint
+from sortedcontainers import SortedList
 
 class Data:
     def __init__(self):
@@ -123,9 +124,9 @@ class Data:
 
         if file in self.stats[purpose]:
             self.stats[purpose][file]["count"] += 1
-            self.stats[purpose][file]["last_used"] = id
+            self.stats[purpose][file]["last_used"].add(id)
         else:
-            self.stats[purpose][file] = {"count": 1, "last_used": id}
+            self.stats[purpose][file] = {"count": 1, "last_used": SortedList([id])}
 
         return None
     
@@ -147,11 +148,11 @@ class Data:
         purpose = f"{purpose}_stats"
         if file in self.stats[purpose]:
             self.stats[purpose][file]["count"] += 1
-            self.stats[purpose][file]["last_used"] = max(id, self.stats[purpose][file]["last_used"])
+            self.stats[purpose][file]["last_used"].add(id)
         else:
             self.stats[purpose][file] = {}
             self.stats[purpose][file]["count"] = 1
-            self.stats[purpose][file]["last_used"] = id
+            self.stats[purpose][file]["last_used"] = SortedList([id])
     
     # Delete composition
     def del_comp(self, id) -> None:
