@@ -104,7 +104,6 @@ class Data:
         res = 0
         if len(self.opens) == 0:
             res = self.count
-            self.count += 1
         else:
             res = self.opens[0]
             self.opens = self.opens[1:]
