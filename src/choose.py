@@ -30,19 +30,19 @@ def get_random_file(d, purpose, id):
             res = file
             break
             
-        elif (purpose == "meme") and (id - last_used - 1 >= TIME_BETWEEN_MEMES):
+        elif (purpose == "bg") and (d.check_file_usage("bg", file, id, TIME_BETWEEN_BGS):
             res = file
             break
             
-        elif (purpose == "face") and (id - last_used - 1 >= TIME_BETWEEN_FACES):
+        elif (purpose == "meme") and (d.check_file_usage("meme", file, id, TIME_BETWEEN_MEMES):
             res = file
             break
             
-        elif (purpose == "bg") and (id - last_used - 1 >= TIME_BETWEEN_BGS):
+        elif (purpose == "face") and (d.check_file_usage("face", file, id, TIME_BETWEEN_FACES):
             res = file
             break
             
-        elif (purpose == "music") and (id - last_used - 1 >= TIME_BETWEEN_MUSICS):
+        elif (purpose == "music") and (d.check_file_usage("music", file, id, TIME_BETWEEN_MUSIC):
             res = file
             break
 
