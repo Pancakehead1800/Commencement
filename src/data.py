@@ -248,6 +248,7 @@ class Data:
 
 if __name__ == "__main__":
     print("Running data.py")
+    d = Data.load()
 
     # Clear existing data
     wipe = input("Wipe all data? [y/n]: ")
@@ -256,15 +257,28 @@ if __name__ == "__main__":
         d = Data()
         d.save()
 
+    # Clean all file stats
     clean = input("Clean all file stats? [y/n]: ")
     if clean == "y":
         print("Cleaning all file stats...")
-        d = Data.load()
         d.clean_file_stats()
         d.save()
+
+    # Manually add composition data
+    add = input("Add composition? [y/n]: ")
+    while add == "y":
+        id = int(input("Video id: "))
+        bg = input("Full background path: ")
+        meme = input("Full meme path: ")
+        face = input("Full face path: ")
+        music = input("Full music path: ")
+        path = input("Full output path: ")
+        duration = float(input("Duration: "))
+        d.add_comp(bg, meme, face, music, path, duration, id)
+        d.save()
+        add = input("Add another composition? [y/n]: ")
 
     # Print existing data
     show = input("Print all data? [y/n]: ")
     if show == "y":
-        d = Data.load()
         pprint.pprint(vars(d))
