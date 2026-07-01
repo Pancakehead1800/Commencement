@@ -48,21 +48,21 @@ if __name__ == "__main__":
     if rewrite == "y":
         id = int(input("What is the video id? "))
         bg_path, meme_path, face_path, music_path = select_paths()
+        old_bg_path, old_meme_path, old_face_path, old_music_path, output_path = d.get_comp_files(id)
 
-        print("Choosing files...")
-        files = step_choose(d, id=id, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
+        if bg_path == None: bg_path = old_bg_path
+        if meme_path == None: meme_path = old_meme_path
+        if face_path == None: face_path = old_face_path
+        if music_path == None: music_path = old_music_path
 
-        print("Composing video...")
-        path  = step_compose(d, files, rewrite=True)
-
-        print("Uploading video...")
-        video = step_upload(d, path)
+        files = (bg_path, meme_path, face_path, music_path, output_path, id)
+        path = step_compose(d, files, rewrite=True)
 
         print("Rewriting composition data")
         d.rewrite_comp(id, bg_path=bg_path, meme_path=meme_path, face_path=face_path, music_path=music_path)
+        d.clean_file_stats()
 
         print("Done!")
-        print(f"Video uploaded to: {video}")
 
 
     """ Print data """

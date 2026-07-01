@@ -185,17 +185,26 @@ class Data:
     def rewrite_comp(self, id, bg_path=None, meme_path=None, face_path=None, music_path=None) -> None:
         if bg_path != None:
             self.update_rewrite_file_stats("bg", bg_path, id)
-            self.comps[id][bg_path] = bg_path
+            self.comps[id]["bg"] = bg_path
         if meme_path != None:
             self.update_rewrite_file_stats("meme", meme_path, id)
-            self.comps[id][meme_path] = meme_path
+            self.comps[id]["meme"] = meme_path
         if face_path != None:
             self.update_rewrite_file_stats("face", face_path, id)
-            self.comps[id][face_path] = face_path
+            self.comps[id]["face"] = face_path
         if music_path != None:
             self.update_rewrite_file_stats("music", music_path, id)
-            self.comps[id][music_path] = music_path
+            self.comps[id]["music"] = music_path
         self.save()
+
+    # Get current files for certain composition
+    def get_comp_files(self, id):
+        bg = self.comps[id]["bg"]
+        meme = self.comps[id]["meme"]
+        face = self.comps[id]["face"]
+        music = self.comps[id]["music"]
+        output = self.comps[id]["path"]
+        return (bg, meme, face, music, output)
 
     # Clean all file stats based on compositions
     def clean_file_stats(self):
