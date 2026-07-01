@@ -105,10 +105,9 @@ class Data:
     
     # Check if we have already downloaded this file before
     def check_download(self, purpose, file) -> bool:
-        purpose = purpose + "s"
-        if file in self.files[purpose]:
-            return False
-        return True
+        if file in self.stats[purpose + "_stats"]:
+            return True
+        return False
 
     # Update the statistics of the file
     def use_file(self, purpose, file, id) -> None:
