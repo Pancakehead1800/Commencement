@@ -3,7 +3,7 @@ Example of the Data structure:
 {
     "count": 2,
     "opens": [0, 3, 16]
-    "compositions": 
+    "comps": 
     {
         "1": 
         {
@@ -94,8 +94,10 @@ class Data:
     def get_next_id(self) -> int:
         res = 0
         if len(self.opens) == 0:
+            print("Using count")
             res = self.count
         else:
+            print("Using opens")
             res = self.opens[0]
             self.opens = self.opens[1:]
         return res
@@ -194,6 +196,43 @@ class Data:
             self.update_rewrite_file_stats("music", music_path, id)
             self.comps[id][music_path] = music_path
         self.save()
+
+    # Clean all file stats based on compositions
+    def clean_file_stats(self):
+        count = 0
+
+        self.stats = {"bg_stats": {}, "meme_stats": {}, "face_stats": {}, "music_stats": {}}
+
+        for id, files in self.comps.items():
+            count += 1
+
+            bg = files["bg"]
+            if bg not in self.stats["bg_stats"]:
+                self.stats["bg_stats"][bg] = {"count": 0, "last_used": SortedList([])}
+            self.stats["bg_stats"][bg]["count"] += 1
+            self.stats["bg_stats"][bg]["last_used"].add(id)
+
+            meme = files["meme"]
+            if meme not in self.stats["meme_stats"]:
+                self.stats["meme_stats"][meme] = {"count": 0, "last_used": SortedList([])}
+            self.stats["meme_stats"][meme]["count"] += 1
+            self.stats["meme_stats"][meme]["last_used"].add(id)
+
+            face = files["face"]
+            if face not in self.stats["face_stats"]:
+                self.stats["face_stats"][face] = {"count": 0, "last_used": SortedList([])}
+            self.stats["face_stats"][face]["count"] += 1
+            self.stats["face_stats"][face]["last_used"].add(id)
+
+            music = files["music"]
+            if music not in self.stats["music_stats"]:
+                self.stats["music_stats"][music] = {"count": 0, "last_used": SortedList([])}
+            self.stats["music_stats"][music]["count"] += 1
+            self.stats["music_stats"][music]["last_used"].add(id)
+        
+        self.count = count
+        self.save()
+
     
     # Save data to data.pkl
     def save(self):
@@ -212,10 +251,20 @@ if __name__ == "__main__":
 
     # Clear existing data
     wipe = input("Wipe all data? [y/n]: ")
-    if wipe.lower() in ["y", "yes"]:
+    if wipe == "y":
+        print("Wiping all data...")
         d = Data()
         d.save()
 
+    clean = input("Clean all file stats? [y/n]: ")
+    if clean == "y":
+        print("Cleaning all file stats...")
+        d = Data.load()
+        d.clean_file_stats()
+        d.save()
+
     # Print existing data
-    d = Data.load()
-    pprint.pprint(vars(d))
+    show = input("Print all data? [y/n]: ")
+    if show == "y":
+        d = Data.load()
+        pprint.pprint(vars(d))
