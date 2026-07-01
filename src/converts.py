@@ -41,7 +41,7 @@ def convert_raw_memes(d, input_folder, output_folder):
         output_path = os.path.join(output_folder, f"{root}{output_map[ext]}")
         os.remove(input_path)
         if os.path.isfile(output_path): continue
-        if d.check_download(input_path): continue
+        if d.check_download("meme", input_path): continue
         convert_meme(input_path, output_path)
         print(f"Saving {output_path}")
         
@@ -67,10 +67,10 @@ def convert_raw_faces(d, input_folder, output_folder):
         root, ext = os.path.splitext(file)
         input_path = os.path.join(input_folder, file)
         output_path = os.path.join(output_folder, f"{root}.png")
-        os.remove(input_path)
         if os.path.isfile(output_path): continue
-        if d.check_download(input_path): continue
+        if d.check_download("face", input_path): continue
         convert_face(input_path, output_path)
+        os.remove(input_path)
         print(f"Saving {output_path}")
 
 
