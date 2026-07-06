@@ -129,7 +129,7 @@ class Data:
             return True
         elif id < self.stats[purpose]["last_used"]:
             return True
-        elif (id - self.stats[purpose]["last_used"] - 1) <= time_between:
+        elif (id - self.stats[purpose]["last_used"] - 1) > time_between:
             return True
         
         return False
@@ -206,40 +206,40 @@ class Data:
         return (bg, meme, face, music, output)
 
     # Clean all file stats based on compositions
-    # def clean_file_stats(self):
-    #     count = 0
+    def clean_file_stats(self):
+        count = 0
 
-    #     self.stats = {"bg_stats": {}, "meme_stats": {}, "face_stats": {}, "music_stats": {}}
+        self.stats = {"bg_stats": {}, "meme_stats": {}, "face_stats": {}, "music_stats": {}}
 
-    #     for id, files in self.comps.items():
-    #         count += 1
+        for id, files in self.comps.items():
+            count += 1
 
-    #         bg = files["bg"]
-    #         if bg not in self.stats["bg_stats"]:
-    #             self.stats["bg_stats"][bg] = {"count": 0, "last_used": SortedList([])}
-    #         self.stats["bg_stats"][bg]["count"] += 1
-    #         self.stats["bg_stats"][bg]["last_used"].add(id)
+            bg = files["bg"]
+            if bg not in self.stats["bg_stats"]:
+                self.stats["bg_stats"][bg] = {"count": 0, "last_used": SortedList([])}
+            self.stats["bg_stats"][bg]["count"] += 1
+            self.stats["bg_stats"][bg]["last_used"].add(id)
 
-    #         meme = files["meme"]
-    #         if meme not in self.stats["meme_stats"]:
-    #             self.stats["meme_stats"][meme] = {"count": 0, "last_used": SortedList([])}
-    #         self.stats["meme_stats"][meme]["count"] += 1
-    #         self.stats["meme_stats"][meme]["last_used"].add(id)
+            meme = files["meme"]
+            if meme not in self.stats["meme_stats"]:
+                self.stats["meme_stats"][meme] = {"count": 0, "last_used": SortedList([])}
+            self.stats["meme_stats"][meme]["count"] += 1
+            self.stats["meme_stats"][meme]["last_used"].add(id)
 
-    #         face = files["face"]
-    #         if face not in self.stats["face_stats"]:
-    #             self.stats["face_stats"][face] = {"count": 0, "last_used": SortedList([])}
-    #         self.stats["face_stats"][face]["count"] += 1
-    #         self.stats["face_stats"][face]["last_used"].add(id)
+            face = files["face"]
+            if face not in self.stats["face_stats"]:
+                self.stats["face_stats"][face] = {"count": 0, "last_used": SortedList([])}
+            self.stats["face_stats"][face]["count"] += 1
+            self.stats["face_stats"][face]["last_used"].add(id)
 
-    #         music = files["music"]
-    #         if music not in self.stats["music_stats"]:
-    #             self.stats["music_stats"][music] = {"count": 0, "last_used": SortedList([])}
-    #         self.stats["music_stats"][music]["count"] += 1
-    #         self.stats["music_stats"][music]["last_used"].add(id)
+            music = files["music"]
+            if music not in self.stats["music_stats"]:
+                self.stats["music_stats"][music] = {"count": 0, "last_used": SortedList([])}
+            self.stats["music_stats"][music]["count"] += 1
+            self.stats["music_stats"][music]["last_used"].add(id)
         
-    #     self.count = count
-    #     self.save()
+        self.count = count
+        self.save()
 
     # get rid of double backslash // in the compositions
     # def clean_comps(self):
