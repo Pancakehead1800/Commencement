@@ -22,7 +22,6 @@ def convert_meme(input_path, output_path, ext):
         try:
             with Image.open(input_path) as image:
                 image.save(output_path, "JPEG", quality=85, optimize=True)
-            os.remove(input_path)
         except Exception as e:
             print(f"Error converting {input_path} from webp to jpg: {e}") 
 
@@ -39,10 +38,13 @@ def convert_raw_memes(d, input_folder, output_folder):
         root, ext = os.path.splitext(file)
         input_path = os.path.join(input_folder, file)
         output_path = os.path.join(output_folder, f"{root}{output_map[ext]}")
+
+        if os.path.isfile(output_path) or d.check_download("meme", input_path):
+            os.remove(input_path)
+            continue
+
+        convert_meme(input_path, output_path, ext)
         os.remove(input_path)
-        if os.path.isfile(output_path): continue
-        if d.check_download("meme", input_path): continue
-        convert_meme(input_path, output_path)
         print(f"Saving {output_path}")
         
 
@@ -67,8 +69,11 @@ def convert_raw_faces(d, input_folder, output_folder):
         root, ext = os.path.splitext(file)
         input_path = os.path.join(input_folder, file)
         output_path = os.path.join(output_folder, f"{root}.png")
-        if os.path.isfile(output_path): continue
-        if d.check_download("face", input_path): continue
+        
+        if os.path.isfile(output_path) or d.check_download("face", input_path): 
+            os.remove(input_path)
+            continue
+
         convert_face(input_path, output_path)
         os.remove(input_path)
         print(f"Saving {output_path}")
