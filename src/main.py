@@ -29,12 +29,7 @@ if __name__ == "__main__":
         print("Composing video...")
         path  = step_compose(d, files)
 
-        print("Uploading video...")
-        video = step_upload(d, path)
-
-        print("Done!")
-        print(f"Video uploaded to: {video}")
-
+        
     
 
     """ Delete a video """
@@ -62,6 +57,14 @@ if __name__ == "__main__":
         d.clean_file_stats()
 
         print("Done!")
+
+    """ Upload a video """
+    if action == "upload":
+        id = int(input("What is the video id? "))
+        path = os.path.join(OUTPUTS_PATH, f"{id}.mp4")
+
+        print("Uploading video...")
+        video = step_upload(path)
 
 
     """ Print data """
