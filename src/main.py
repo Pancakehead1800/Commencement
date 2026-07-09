@@ -12,10 +12,11 @@ if __name__ == "__main__":
     print("Loading data...")
     d = Data.load()
 
+    action = input('What would you like to do? ["create", "delete", "rewrite", "print"]: ')
+
     
     """ Create a video """
-    create = input("Create new video? [y/n]: ")
-    if create == "y":
+    if action == "create":
         choose = input("Choose specific files? [y/n]: ")
         if choose == "y":
             bg_path, meme_path, face_path, music_path = select_paths()
@@ -37,15 +38,13 @@ if __name__ == "__main__":
     
 
     """ Delete a video """
-    delete = input("Delete a composition? [y/n]: ")
-    if delete == "y":
+    if action == "delete":
         id = int(input("What is the video id? "))
         d.del_comp(id)
 
     
     """ Rewrite a video """
-    rewrite = input("Rewrite a composition? [y/n]: ")
-    if rewrite == "y":
+    if action == "rewrite":
         id = int(input("What is the video id? "))
         bg_path, meme_path, face_path, music_path = select_paths()
         old_bg_path, old_meme_path, old_face_path, old_music_path, output_path = d.get_comp_files(id)
@@ -66,6 +65,5 @@ if __name__ == "__main__":
 
 
     """ Print data """
-    print_data = input("Print current data? [y/n]: ")
-    if print_data == "y":
+    if action == "print":
         pprint.pprint(vars(d))
