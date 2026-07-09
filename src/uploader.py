@@ -6,6 +6,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
+from constants import *
 
 # YouTube upload scope
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
@@ -14,20 +15,20 @@ SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
 def get_authenticated_service():
     creds = None
 
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    if os.path.exists(TOKENS_FILE):
+        creds = Credentials.from_authorized_user_file(TOKENS_FILE, SCOPES)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                "client_secret.json",
+                SECRETS_FILE,
                 SCOPES,
             )
             creds = flow.run_local_server(port=0)
 
-        with open("token.json", "w") as f:
+        with open(TOKENS_FILE, "w") as f:
             f.write(creds.to_json())
 
     return build("youtube", "v3", credentials=creds)

@@ -12,7 +12,7 @@ if __name__ == "__main__":
     print("Loading data...")
     d = Data.load()
 
-    action = input('What would you like to do? ["create", "delete", "rewrite", "print"]: ')
+    action = input('What would you like to do? ["create", "delete", "rewrite", "print", "upload"]: ')
 
     
     """ Create a video """

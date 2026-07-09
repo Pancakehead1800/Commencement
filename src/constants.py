@@ -20,10 +20,10 @@ DATA_CLASS_PATH   = "src/data.py"
 
 # File Choosing
 MAX_ITERATIONS = 1000
-TIME_BETWEEN_MEMES  = 10
-TIME_BETWEEN_FACES  = 5
+TIME_BETWEEN_MEMES  = 15
+TIME_BETWEEN_FACES  = 6
 TIME_BETWEEN_BGS    = 1
-TIME_BETWEEN_MUSICS = 0
+TIME_BETWEEN_MUSICS = 1
 
 
 # Video Specifications
@@ -47,3 +47,8 @@ MAX_MEME_SLOWDOWN    = 0.3
 
 # Face Editing
 FACE_WIDTH = 0.7
+
+
+# Secrets
+SECRETS_FILE = "secrets.json"
+TOKENS_FILE = "tokens.json"
