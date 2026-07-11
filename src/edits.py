@@ -1,5 +1,4 @@
 from constants import *
-import random
 from moviepy import ImageClip, VideoFileClip, CompositeVideoClip, AudioFileClip
 from moviepy.video.fx.Loop import Loop
 from moviepy.video.fx import MultiplySpeed

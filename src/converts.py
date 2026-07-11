@@ -3,8 +3,8 @@ from rembg import remove
 from pillow_heif import register_heif_opener
 from pydub import AudioSegment
 from constants import *
-import os
 from data import Data
+import os
 
 
 """=============== MEMES ==============="""
