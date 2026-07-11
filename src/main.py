@@ -17,9 +17,16 @@ if __name__ == "__main__":
 
     """ Full Workflow """
     if action == "full":
+        print("Choosing files...")
         files = step_choose(d)
-        path  = step_compose(d, files)
+
+        print("Composing video...")
+        path = step_compose(d, files)
+
+        print("Uploading video...")
         video = step_upload(path)
+
+        print("Done!")
 
     
     """ Create a video """
@@ -35,8 +42,6 @@ if __name__ == "__main__":
 
         print("Composing video...")
         path  = step_compose(d, files)
-
-        
     
 
     """ Delete a video """

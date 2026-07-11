@@ -14,7 +14,7 @@ OUTPUTS_PATH     = "db\\outputs"
 
 
 # Data Storage
-DATA_STORAGE_PATH = "data.pkl"
+DATA_STORAGE_PATH = "src/data.pkl"
 DATA_CLASS_PATH   = "src/data.py"
 
 
