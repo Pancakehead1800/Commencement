@@ -40,7 +40,8 @@ def upload_short(video_path):
     video_path = Path(video_path)
 
     # Use filename as title
-    title = video_path.stem.replace("_", " ").replace("-", " ")
+    title = "A daily meme of the day"
+    # title = video_path.stem.replace("_", " ").replace("-", " ")
 
     if "#shorts" not in title.lower():
         title += " #Shorts"
