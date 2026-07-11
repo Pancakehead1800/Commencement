@@ -90,3 +90,13 @@ Need to acquire:
 ## Faces:
 1. No clue where i got the cat one
 2. Immich => ma DAWGS
+
+
+# Running docker:
+
+`docker compose run --rm cron`
+
+`
+cd /volume1/docker/youtuber
+docker compose run --rm cron
+`

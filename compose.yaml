@@ -1,0 +1,24 @@
+services:
+  cron:
+    container_name: youtuber
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    restart: "no"
+
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+    environment:
+      TZ: America/Chicago
+
+      # Email settings
+      EMAIL_TO: m07wang@gmail.com
+      SMTP_SERVER: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: "m07wang@gmail.com"
+      SMTP_PASSWORD: "#Ejlsam2009"
+
+      THRESHOLD: "50"

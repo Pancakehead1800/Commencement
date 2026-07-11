@@ -5,3 +5,7 @@ pillow-heif
 pydub
 audioop-lts
 sortedcontainers
+google-api-python-client 
+google-auth-oauthlib 
+google-auth-httplib2
+smtplib
