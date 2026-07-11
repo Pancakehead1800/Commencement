@@ -13,13 +13,18 @@ if __name__ == "__main__":
     d = Data.load()
 
     # action = input('What would you like to do? ["create", "delete", "rewrite", "print", "upload"]: ')
-    action = "create"
+    action = "full"
+
+    """ Full Workflow """
+    if action == "full":
+        files = step_choose(d)
+        path  = step_compose(d, files)
+        video = step_upload(path)
 
     
     """ Create a video """
     if action == "create":
-        # choose = input("Choose specific files? [y/n]: ")
-        choose = "n"
+        choose = input("Choose specific files? [y/n]: ")
         if choose == "y":
             bg_path, meme_path, face_path, music_path = select_paths()
         else:

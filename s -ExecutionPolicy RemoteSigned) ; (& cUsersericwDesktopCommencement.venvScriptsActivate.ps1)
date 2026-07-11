@@ -1,0 +1,130 @@
+[33m670b410[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m shrink bg file sizes
+[33m52d2f20[m oh ye have to fix the lfs thing for new dbs
+[33m1759b18[m add the rest (i really hope this is a private repo)
+[33m26eee2e[m "warnings.py" is taken by moviepe
+[33ma27d1d5[m FATAL: WE WIPED THE DATA
+[33m8988483[m preparing docker setup
+[33m993957e[m reformatting databases
+[33m7094281[m make workflow work except need change name and why is time_between not working?
+[33m3514085[m add upload file to main
+[33m2024335[m make upload file work
+[33m40b7e4b[m upload file
+[33mc6c80dc[m secrets.json
+[33m8c72d6a[m make workflow easier
+[33ma984684[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m video 9
+[33m6407a7e[m new memes
+[33m1d11475[m fixing conversions to properly remove files after they are converted
+[33m802aa53[m add 7 and 8
+[33mce47880[m edit photo with possible pid
+[33m66ef4d8[m add music
+[33meb378a3[m change default time to 12
+[33m2e97792[m make default memes longer
+[33m0d069ac[m fix check_file_usage to NOT use a recently used file
+[33m3d3b244[m clean the \\\\ slashes in the comp data
+[33m4b1dd47[m video 6
+[33mfc1b9d9[m add some faces
+[33mcf7e569[m add new bg and face
+[33me2b9a1f[m run converts.py
+[33m252da65[m fix bug in check_download() file (returned oppositve value)
+[33m3928eac[m rewrite upload 4
+[33m478efb9[m let memes take up more space
+[33m78c2110[m 6th post (5.mp4)
+[33m28e0d3f[m fix bugs in data updates when rewriting (count and file_stats)
+[33m2ac41a2[m clean data again
+[33m11b9473[m add "clean file stats" function
+[33m616a116[m clean up bad data
+[33m28d0344[m fix bug in update_file_stats()
+[33m7a6460c[m Merge branch 'main' of https://github.com/MatthewW07/Commencement
+[33mba12eea[m update from laptop side
+[33m8cd51fa[m Rewriting a composition will now update stats for the old file as well
+[33me858735[m make sure the program can create a video if paths are not specified
+[33mf05a9e7[m add outputs to git lfs tracking
+[33m85410e7[m add clean data for first 4 uploads
+[33me8e0824[m add bg file
+[33m8d74439[m fix bugs in data files
+[33mf50dbc3[m improve video creation ui
+[33m4f853c4[m update database (wipe all data)
+[33m2e0c4c2[m Use new data class function to check file usage in data class instead of choose.py
+[33m5c58c40[m add a class function to check if file has been used not long enough ago
+[33m2a8e225[m Update last_used key to contain all previous file uses
+[33md6fe85c[m Prepare the data.py example structure for updates
+[33m4d75666[m Make rewriting a composition affect the existing id instead of making a new one
+[33m90e4b4e[m new upload!
+[33mda49b59[m initial rewrite function creation (still creates new ids and uses new random files when unspecified though)
+[33m0d3921f[m remove dumb bg
+[33m0405b1a[m reworking main workflow and data to allow rewriting videos
+[33me7ecc86[m update db
+[33m4a2e205[m make creation workflow easier
+[33m518bd8e[m fix bug in choosing files
+[33m78f6553[m eliminate untrustworthy m4a to mp3 function (with comments)
+[33m8eb99ab[m Merge branch 'main' of https://github.com/MatthewW07/Commencement
+[33m57ac4cf[m update databases
+[33mb1d3fa8[m comment out the code i never looked at
+[33mac9adba[m use the get_next_id function
+[33m5a65ce3[m add constants for meme padding and positioning logic
+[33mb7313ad[m add function to get next video id
+[33m9d70db8[m remove jitter in meme placement
+[33m5a092fe[m before trying to convert m4a to mp3
+[33md57d5d3[m add end of beginning
+[33m0387fc8[m Add the time between files constants
+[33m834759c[m Update the time between file choice logic
+[33mc576684[m improve data storage
+[33m42767d4[m add more preventions to repeat downloading
+[33mb243cd6[m clean conversion folder
+[33mc5bbb4b[m clear raw memes db
+[33mf3e8c40[m clear the raw memes folder of used memes
+[33mac89e14[m improve meme conversion file
+[33m5d8492b[m fix meme conversion bug for .mp4 files
+[33mae6d59a[m uploader draft
+[33me9519be[m final testing for today
+[33m939d13f[m make meme on top of face
+[33md63d737[m debug data storing
+[33m651dfc2[m debug choices fily
+[33m6943ba7[m making new choice file compatible with others
+[33m1a06bc9[m update how statistics are stored
+[33m05cc157[m add file explicitly for randomly choosing files
+[33ma0bfe99[m fix speedup and slowdown
+[33m7eb8040[m debugging and fix video meme crashes
+[33mccafd0a[m make composer file work with data file
+[33m67723c9[m add "path" id to compositions
+[33m1ab3bfa[m add better data storage with pickle
+[33m433b3c9[m add ready faces
+[33m2e2a82a[m update readme plans
+[33m1ac7070[m add raw faces of dogs
+[33md0740fc[m remove bad outputs and rename good ones
+[33m1802048[m improve database
+[33m54881bb[m listing file sources
+[33me7eefee[m testing .heic to clear .png function
+[33mae11169[m fix src folder imports stuff
+[33mc1d0b76[m rename files
+[33m45c4262[m allow for .heic files
+[33m4acab61[m prevent duplicates in the memes_ready folder
+[33mba2ba9b[m cleaning editor and constants again
+[33m7effeed[m clean editor file
+[33m293209c[m add global constants file
+[33m265d6f7[m quality meme 36.mp4
+[33ma7efbe7[m make jpg memes compatible
+[33mbaadfec[m convert all webp to jpg function
+[33m8bd7582[m setting up meme raw and ready db
+[33m8e1d0ae[m webp to jpeg function
+[33m2c25144[m organize dbs
+[33m3a36e52[m add git-lfs for the large files
+[33m6225827[m remove large files in db
+[33m3bd609d[m more db downloads
+[33mf44fc2b[m update db
+[33mb41928e[m create meme and bg duration functions
+[33m1786efe[m randomie meme placement slightly
+[33mce454c9[m goated first vid
+[33me4fe860[m cleanup
+[33me006d34[m actually fix music
+[33m3366ba3[m organizing
+[33mc54f710[m fix audio
+[33m0fdc6a9[m fix positioning
+[33m7e55b70[m trying to add facials
+[33mebaf8e8[m add music
+[33mec6934b[m make first editing file
+[33m523437f[m update plans
+[33mcd7fb3a[m setup folder structure
+[33m00321bc[m make README nicer
+[33m3c4f5f3[m update the plan
+[33m7a12380[m planning
