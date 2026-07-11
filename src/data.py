@@ -276,7 +276,7 @@ if __name__ == "__main__":
     clean = input("Clean all file stats? [y/n]: ")
     if clean == "y":
         print("Cleaning all file stats...")
-        d.clean_comps()
+        # d.clean_comps()
         d.clean_file_stats()
         d.save()
 

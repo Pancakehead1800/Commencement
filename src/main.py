@@ -12,12 +12,14 @@ if __name__ == "__main__":
     print("Loading data...")
     d = Data.load()
 
-    action = input('What would you like to do? ["create", "delete", "rewrite", "print", "upload"]: ')
+    # action = input('What would you like to do? ["create", "delete", "rewrite", "print", "upload"]: ')
+    action = "create"
 
     
     """ Create a video """
     if action == "create":
-        choose = input("Choose specific files? [y/n]: ")
+        # choose = input("Choose specific files? [y/n]: ")
+        choose = "n"
         if choose == "y":
             bg_path, meme_path, face_path, music_path = select_paths()
         else:
