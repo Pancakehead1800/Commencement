@@ -14,7 +14,7 @@ OUTPUTS_PATH     = "db/outputs"
 
 
 # Data Storage
-DATA_STORAGE_PATH = "src/data.pkl"
+DATA_STORAGE_PATH = "states/data.pkl"
 DATA_CLASS_PATH   = "src/data.py"
 
 
@@ -51,5 +51,5 @@ FACE_WIDTH = 0.7
 
 
 # Secrets
-SECRETS_FILE = "secrets.json"
-TOKENS_FILE = "tokens.json"
+SECRETS_FILE = "states/secrets.json"
+TOKENS_FILE  = "states/tokens.json"
