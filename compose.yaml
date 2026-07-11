@@ -9,4 +9,6 @@ services:
     restart: "no"
 
     volumes:
-      - /volume1/docker/youtuber/:/app
+      - /volume1/docker/youtuber/src:/app/src
+      - /volume1/docker/youtuber/db:/app/db
+      - /volume1/docker/youtuber/db:/app/states
