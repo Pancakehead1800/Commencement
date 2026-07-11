@@ -54,7 +54,7 @@ def upload_short(video_path):
             "categoryId": "24",
         },
         "status": {
-            "privacyStatus": "private",
+            "privacyStatus": PRIVACY_STATUS,
             "selfDeclaredMadeForKids": False,
         },
     }

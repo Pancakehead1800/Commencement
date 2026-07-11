@@ -29,6 +29,7 @@ TIME_BETWEEN_MUSICS = 1
 # Video Specifications
 DEFAULT_MEME_DURATION = 12
 FPS = 30
+PRIVACY_STATUS = "private"
 
 
 # Background editing
